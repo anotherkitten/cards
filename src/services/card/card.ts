@@ -1,0 +1,119 @@
+import { inject, Injectable } from '@angular/core';
+import { CardId, Card } from '../../models/card';
+import { CardExecutionService } from '../card-execution/card-execution';
+import { CARD_TEMPLATES } from '../../models/card-library';
+
+type CardFilter = (c: Card) => boolean;
+type CardOrderBy = (cards: Card[]) => void;
+
+export enum CardLocation {
+  HAND, DRAW, DISCARD, DECK
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CardService {
+  private cardExecService: CardExecutionService = inject(CardExecutionService);
+  
+  owned: Card[] = [];
+  queued_deck_changed: boolean = false;
+  queued_deck: Card[] | null = null;
+
+  draw: Card[] = [];
+  hand: Card[] = [];
+  discard: Card[] = [];
+
+  discardCard(c: Card) {
+    for (let tempData of Object.keys(c.data).filter(k => k.startsWith('temporary'))) {
+      c.data[tempData] = '';
+    }
+
+    this.discard.push(c);
+    this.hand = this.hand.filter(a => a.uuid !== c.uuid);
+  }
+
+  discardToDraw() {
+    this.draw = this.discard;
+    Card.shuffle(this.draw);
+    this.discard = [];
+  }
+
+  redraw() {
+    for (let card of this.hand) {
+      this.discardCard(card);
+    }
+    this.drawCards(5);
+  }
+
+  drawCards(cards: number = 1) {
+    while (cards > 0 && this.hand.length < 9) {
+      cards--;
+
+      if (!this.draw.length) {
+        this.discardToDraw();
+      }
+
+      if (this.draw.length) {
+        this.hand.push(this.draw.pop()!);
+      }
+    }
+  }
+
+  drawFromDeck(cards: Card | Card[]) {
+    [cards].flat().forEach(c => {
+      if (this.hand.length < 9 && this.draw.includes(c)) {
+        this.hand.push(c);
+        this.draw = this.draw.filter(a => a.uuid !== c.uuid);
+      }
+    })
+  }
+
+  play(card: Card) {
+    card.effect(card);
+    this.discardCard(card);
+  }
+
+  getDefaultDeck() {
+    return [
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.RELAX,
+      CardId.CHOP_WOOD,
+      CardId.CHOP_WOOD,
+      CardId.CHOP_WOOD,
+      CardId.CHOP_WOOD,
+      CardId.CHOP_WOOD,
+      CardId.MINE_STONE,
+      CardId.MINE_STONE,
+      CardId.MINE_STONE,
+      CardId.MINE_STONE,
+      CardId.MINE_STONE
+    ].map(id => CARD_TEMPLATES[id]).map(template => template.toCard(this.cardExecService));
+  }
+
+  // CARD EFFECT HELPERS
+  getCardsFrom(where: CardLocation, amount: number = 1, filters: CardFilter[] | CardFilter = [], order: CardOrderBy = Card.shuffle) {
+    let selected_cards = 
+      (where == CardLocation.HAND) ? this.hand :
+      (where == CardLocation.DRAW) ? this.draw :
+      (where == CardLocation.DISCARD) ? this.discard :
+      [this.hand, this.draw, this.discard].flat()
+
+    for (let filter of [filters].flat()) {
+      selected_cards = selected_cards.filter(filter);
+    }
+
+    order(selected_cards);
+
+    return selected_cards.slice(0, amount);
+  }
+}
+

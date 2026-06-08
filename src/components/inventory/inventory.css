@@ -1,0 +1,101 @@
+div.grid {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 800px;
+	height: 400px;
+	overflow-x: scroll;
+
+    scrollbar-width: none;  /* Firefox, Safari 18.2+, Chromium 121+ */
+
+	.column {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+
+		width: 150px;
+		height: auto;
+
+		+ .column {
+			margin-left: 10px 
+		}
+
+		.item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			width: 150px;
+			height: 40px;
+
+			box-sizing: border-box;
+			border-radius: 10px;
+			border-width: 2px;
+			border-style: solid;
+
+			+ .item {
+				margin-top: 10px;
+			}
+			
+			.label {
+				user-select: none;
+			}
+		}
+	}
+}
+
+div.grid .column .item.red {
+	color: var(--color-font-red);
+	border-color: var(--color-dark-red);
+	background-color: var(--color-light-red);
+}
+
+div.grid .column .item.orange {
+	color: var(--color-font-orange);
+	border-color: var(--color-dark-orange);
+	background-color: var(--color-light-orange);
+}
+
+div.grid .column .item.yellow {
+	color: var(--color-font-yellow);
+	border-color: var(--color-dark-yellow);
+	background-color: var(--color-light-yellow);
+}
+
+div.grid .column .item.green {
+	color: var(--color-font-green);
+	border-color: var(--color-dark-green);
+	background-color: var(--color-light-green);
+}
+
+div.grid .column .item.blue {
+	color: var(--color-font-blue);
+	border-color: var(--color-dark-blue);
+	background-color: var(--color-light-blue);
+}
+
+div.grid .column .item.purple {
+	color: var(--color-font-purple);
+	border-color: var(--color-dark-purple);
+	background-color: var(--color-light-purple);
+}
+
+div.grid .column .item.brown {
+	color: var(--color-font-brown);
+	border-color: var(--color-dark-brown);
+	background-color: var(--color-light-brown);
+}
+
+div.grid .column .item.black {
+	color: var(--color-font-black);
+	border-color: var(--color-dark-black);
+	background-color: var(--color-light-black);
+}
+
+div.grid .column .item.white {
+	color: var(--color-font-white);
+	border-color: var(--color-dark-white);
+	background-color: var(--color-light-white);
+}

@@ -1,0 +1,28 @@
+<div class="card-section">
+	@for(card of cardService.hand; track card.uuid) {
+		<app-card [card]="card" (played)="play(card)"></app-card>
+	}
+</div>
+
+<div class="card-redraw" [ngClass]="showTimer ? 'clicked' : ''">
+	<button (click)="drawNewHand()" [ngClass]="showTimer ? 'hide' : ''">
+		Redraw
+	</button>
+	<canvas #canv width="320" height="320" [ngClass]="showTimer ? 'show' : ''"></canvas>
+</div>
+
+<div class="card-pile draw">
+	<button (click)="viewDeck('draw')">
+		Draw Pile ({{cardService.draw.length}})
+	</button>
+</div>
+<div class="card-pile discard">
+	<button (click)="viewDeck('discard')">
+		Discard Pile ({{cardService.discard.length}})
+	</button>
+</div>
+
+@if (viewingDeck) {
+	<app-deck-view (close)="viewDeck('')" [cards]="viewingDeck == 'draw' ? cardService.draw : cardService.discard">
+	</app-deck-view>
+}

@@ -1,0 +1,13 @@
+<div class="card" cdkDrag #drag="cdkDrag" #cardDiv
+	[ngClass]="[card!.info.color, dragged ? 'dragged' : 'not-dragged', playing ? 'playing' : '']" 
+	(cdkDragMoved)="dragMoved($event)"
+	(cdkDragEnded)="dragEnd($event, drag)"
+	(mousedown)="dragStart($event)"
+	(touchstart)="dragStart($event)">
+	<div class="label">
+		{{card!.info.name}}
+	</div>
+	<div class="description">
+		{{card!.populate(card!.info.desc)}}
+	</div>
+</div>

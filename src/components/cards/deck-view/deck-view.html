@@ -1,0 +1,13 @@
+<div class="click-out" (click)="closeView()">
+	<div class="deck-view">
+		@for (row of sliceIntoRows(); track $index) {
+			<div class="row">
+				@for (card of row; track card.uuid) {
+					<div class="card">
+						<app-card-visual [card]="card"></app-card-visual>
+					</div>
+				}
+			</div>
+		}
+	</div>
+</div>
