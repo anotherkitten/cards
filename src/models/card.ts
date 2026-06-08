@@ -91,14 +91,16 @@ export class SavedCard {
 }
 
 export class CardRecipe {
+	id: CardId;
 	cost: CardRecipeCosts;
 
-	constructor(cost: CardRecipeCosts) {
+	constructor(id: CardId, cost: CardRecipeCosts) {
+		this.id = id;
 		this.cost = cost;
 	}
 
 	getResourcesInCost(): ResourceId[] {
-		return Object.keys(ResourceId).filter(res => Object.keys(this.cost).includes(res)) as ResourceId[];
+		return Object.values(ResourceId).filter(res => Object.keys(this.cost).includes(res)) as ResourceId[];
 	}
 
 	getCost(id: ResourceId | String) {
@@ -179,7 +181,8 @@ export class Card {
 	}
 
 	hasTag = (tag: CardTag | String) => {
-		return this.tags.map(t => t.toString()).includes(tag.toString());
+		console.log(tag)
+		return this.tags.map(t => t.toLowerCase().toString()).includes(tag.toLowerCase().toString());
 	}
 
 	getResourceFromData(id: ResourceId | String) {

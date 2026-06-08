@@ -28,7 +28,8 @@ export class CardsComponent implements OnInit{
 
   ngOnInit() {
     this.cardService.owned = this.cardService.getDefaultDeck();
-    this.cardService.draw = this.cardService.owned;
+    this.cardService.current_deck = [...this.cardService.owned];
+    this.cardService.draw = [...this.cardService.owned];
     Card.shuffle(this.cardService.draw);
     this.cardService.drawCards(5);
 
@@ -41,6 +42,8 @@ export class CardsComponent implements OnInit{
   }
 
   updateTimer() {
+    if (!this.canvasContext) return;
+
     this.canvasContext!.fillStyle="#FAFAFA6A";
     const percentToRedraw = Math.min(1 - (this.nextRedraw - Date.now()) / (this.nextRedraw - this.lastRedraw), 1);
     this.showTimer = percentToRedraw < 1;

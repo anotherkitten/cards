@@ -1,0 +1,146 @@
+.shelf {
+	position: fixed;
+	top: 0;
+	right: -360px;
+	width: 360px;
+	height: 100vh;
+
+	box-sizing: border-box;
+	background-color: white;
+	border: 2px var(--color-dark-white) solid;
+
+	transition: right 0.25s ease-out;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tab {
+	position: absolute;
+	top: 24px;
+	left: -40px;
+	width: 42px;
+	height: 80px;
+	box-sizing: border-box;
+	background-color: white;
+	border: 2px var(--color-dark-white) solid;
+	border-right: none;
+	border-radius: 4px;
+	cursor: pointer;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	div {
+		color: var(--color-font-white);
+		font-weight: 500;
+		transform: rotate(-90deg);
+	}
+}
+
+.shelf.show {
+	right: -2px;
+}
+
+.filters {
+	margin-top: 24px;
+
+	input {
+		background-color: #0001;
+		border: none;
+		font-size: 1em;
+		border-radius: 4px;
+		padding: 4px;
+	}
+	
+	input:focus {
+		background-color: #0002;
+		outline: none;
+	}
+}
+
+.grid {
+	background-color: #0001;
+
+	height: calc(100vh - 80px);
+	width: 312px;
+	margin: 24px;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 10px;
+
+	overflow-y: scroll;
+	scrollbar-width: none;
+}
+
+.row {
+	display: flex;
+	align-items: flex-start;
+	margin-top: 14px;
+	margin-bottom: 24px;
+
+	.card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		position: relative;
+
+		width: 156px;
+
+		.card-cover {
+			width: 120px;
+			height: 160px;
+			border-radius: 10px;
+
+			position: absolute;
+			left: 18px;
+
+			background-color: #0003;
+			transition: opacity .25s, background-color 0.01s;
+			opacity: 1;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.label {
+				color: white;
+				font-size: 1em;
+				font-weight: 500;
+				opacity: 0;
+				user-select: none;
+			}
+		}
+
+		.card-cover.affordable {
+			opacity: 0;
+			background-color: #0008;
+			cursor: pointer;
+		}
+
+		.card-cover.affordable:hover {
+			transition: opacity .25s;
+			opacity: 1;
+
+			.label {
+				opacity: 1;
+			}
+		}
+
+		.cost-label {
+			margin-top: 8px;
+
+			+ .cost-label {
+				margin-top: 0;
+			}
+		}
+
+		.cost-label.unaffordable {
+			color: #622;
+		}
+	}
+}

@@ -36,16 +36,20 @@ export class ResourceService {
     this.sendUpdates();
   }
 
-  private safeGet(id: ResourceId): Resource {
-    if (!Object.keys(RESOURCE_LIB).includes(id)) throw `Tried to access bad resource: ${id}`;
-    return this.resources[id];
+  private resourceIdFromString(s: String): ResourceId {
+    if (!Object.values(ResourceId).map(id => id.toLowerCase()).includes(s.toLowerCase())) throw `Tried to access bad resource: ${s}`;
+    return Object.values(ResourceId).find(id => id.toLowerCase() === s.toLowerCase()) as ResourceId || ResourceId.WOOD;
   }
 
-  name(id: ResourceId): String {
+  private safeGet(id: ResourceId | String): Resource {
+    return this.resources[this.resourceIdFromString(id.toString())];
+  }
+
+  name(id: ResourceId | String): String {
     return this.safeGet(id).name;
   }
 
-  quantity(id: ResourceId): number {
+  quantity(id: ResourceId | String): number {
     return this.safeGet(id).quantity;
   }
 

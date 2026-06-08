@@ -37,10 +37,6 @@
 	}
 }
 
-.card:hover {
-	box-shadow: 0 2px 4px 4px #0001;
-}
-
 .card.red {
 	color: var(--color-font-red);
 	border-color: var(--color-dark-red);

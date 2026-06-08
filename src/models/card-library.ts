@@ -44,7 +44,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 	[CardId.STONE_AXE]: new CardTemplate(CardId.STONE_AXE,
 		new CardInfo(
 			'Stone Axe',
-			'Increase wood gained from other cards in hand by 1.',
+			'Increase wood gained from other cards in hand by 2.',
 			'',
 			CardColor.WHITE
 		),
@@ -54,14 +54,14 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			c.exec!.cards().getCardsFrom(
 				CardLocation.HAND, Infinity, Card.tagFilter(CardTag.WOOD_PROVIDER)
 			).forEach(c => {
-				c.set('temporary-wood', c.getNum('temporary-wood') + 1)
+				c.set('temporary-wood', c.getNum('temporary-wood') + 2)
 			})
 		},
 	),
 	[CardId.STONE_PICK]: new CardTemplate(CardId.STONE_PICK,
 		new CardInfo(
 			'Stone Pick',
-			'Increase stone gained from other cards in hand by 1.',
+			'Increase stone gained from other cards in hand by 2.',
 			'',
 			CardColor.WHITE
 		),
@@ -71,7 +71,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			c.exec!.cards().getCardsFrom(
 				CardLocation.HAND, Infinity, Card.tagFilter(CardTag.STONE_PROVIDER)
 			).forEach(c => {
-				c.set('temporary-stone', c.getNum('temporary-stone') + 1)
+				c.set('temporary-stone', c.getNum('temporary-stone') + 2)
 			})
 		},
 	),
@@ -85,15 +85,11 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 		[],
 		{},
 		(c: Card) => {
-			c.exec!.cards().getCardsFrom(
-				CardLocation.HAND, Infinity, Card.tagFilter(CardTag.STONE_PROVIDER)
-			).forEach(c => {
-				c.exec!.cards().drawFromDeck(c.exec!.cards().getCardsFrom(
-					CardLocation.DECK,
-					2,
-					Card.tagFilter(CardTag.TOOL)
-				))
-			})
+			c.exec!.cards().drawFromDeck(c.exec!.cards().getCardsFrom(
+				CardLocation.DRAW,
+				2,
+				Card.tagFilter(CardTag.TOOL)
+			))
 		},
 	),
 	[CardId.LUMBERYARD]: new CardTemplate(CardId.LUMBERYARD,
@@ -121,26 +117,26 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 }
 
 export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
-	[CardId.RELAX]: new CardRecipe({}),
-	[CardId.CHOP_WOOD]: new CardRecipe({}),
-	[CardId.MINE_STONE]: new CardRecipe({}),
-	[CardId.STONE_AXE]: new CardRecipe({
+	[CardId.RELAX]: new CardRecipe(CardId.RELAX, {}),
+	[CardId.CHOP_WOOD]: new CardRecipe(CardId.CHOP_WOOD, {}),
+	[CardId.MINE_STONE]: new CardRecipe(CardId.MINE_STONE, {}),
+	[CardId.STONE_AXE]: new CardRecipe(CardId.STONE_AXE, {
 		'wood': 4,
 		'stone': 6
 	}),
-	[CardId.STONE_PICK]: new CardRecipe({
+	[CardId.STONE_PICK]: new CardRecipe(CardId.STONE_PICK, {
 		'wood': 6,
 		'stone': 4
 	}),
-	[CardId.TOOL_CART]: new CardRecipe({
+	[CardId.TOOL_CART]: new CardRecipe(CardId.TOOL_CART, {
 		'wood': 8,
 		'stone': 8
 	}),
-	[CardId.LUMBERYARD]: new CardRecipe({
+	[CardId.LUMBERYARD]: new CardRecipe(CardId.LUMBERYARD, {
 		'wood': 12,
 		'stone': 20
 	}),
-	[CardId.QUARRY]: new CardRecipe({
+	[CardId.QUARRY]: new CardRecipe(CardId.QUARRY, {
 		'wood': 20,
 		'stone': 12
 	}),

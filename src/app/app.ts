@@ -4,10 +4,11 @@ import { Inventory } from "../components/inventory/inventory";
 import { CardService } from '../services/card/card';
 import { CardExecutionService } from '../services/card-execution/card-execution';
 import { CardsComponent } from "../components/cards/cards";
+import { RecipesComponent } from "../components/recipes/recipes";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Inventory, CardsComponent],
+  imports: [RouterOutlet, Inventory, CardsComponent, RecipesComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

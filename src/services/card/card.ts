@@ -18,7 +18,7 @@ export class CardService {
   
   owned: Card[] = [];
   queued_deck_changed: boolean = false;
-  queued_deck: Card[] | null = null;
+  current_deck: Card[] = [];
 
   draw: Card[] = [];
   hand: Card[] = [];
@@ -29,12 +29,12 @@ export class CardService {
       c.data[tempData] = '';
     }
 
-    this.discard.push(c);
+    if (this.current_deck?.includes(c)) this.discard.push(c);
     this.hand = this.hand.filter(a => a.uuid !== c.uuid);
   }
 
   discardToDraw() {
-    this.draw = this.discard;
+    this.draw = [...this.current_deck.filter(c => !this.hand.includes(c))];
     Card.shuffle(this.draw);
     this.discard = [];
   }
@@ -99,8 +99,16 @@ export class CardService {
     ].map(id => CARD_TEMPLATES[id]).map(template => template.toCard(this.cardExecService));
   }
 
+  craftCard(id: CardId) {
+    const card = CARD_TEMPLATES[id].toCard(this.cardExecService)
+    this.owned.push(card);
+    this.current_deck.push(card);
+  }
+
   // CARD EFFECT HELPERS
   getCardsFrom(where: CardLocation, amount: number = 1, filters: CardFilter[] | CardFilter = [], order: CardOrderBy = Card.shuffle) {
+    console.log(amount);
+
     let selected_cards = 
       (where == CardLocation.HAND) ? this.hand :
       (where == CardLocation.DRAW) ? this.draw :
