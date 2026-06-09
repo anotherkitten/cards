@@ -18,7 +18,7 @@
 
 .tab {
 	position: absolute;
-	top: 24px;
+	top: 8px;
 	left: -40px;
 	width: 42px;
 	height: 80px;
@@ -43,6 +43,7 @@
 
 .shelf.show {
 	right: -2px;
+	z-index: 80;
 }
 
 .filters {

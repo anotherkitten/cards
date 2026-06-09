@@ -181,7 +181,6 @@ export class Card {
 	}
 
 	hasTag = (tag: CardTag | String) => {
-		console.log(tag)
 		return this.tags.map(t => t.toLowerCase().toString()).includes(tag.toLowerCase().toString());
 	}
 
@@ -215,6 +214,20 @@ export class Card {
 	static dataFilter(data: String[] | String): CardFilter {
 		return (c: Card) => {
 			return [data].flat().every(c.hasData);
+		}
+	}
+
+	static textFilter(text: String): CardFilter {
+		return (card) => {
+			if (
+				text &&
+				!card.info.name.toLowerCase().includes(text.toLowerCase()) &&
+				!card.info.desc.replaceAll(/{(!R)?[a-zA-Z0-9-]+}/g,'').toLowerCase().includes(text.toLowerCase())
+			) {
+				return false;
+			}
+
+			return true;	
 		}
 	}
 }

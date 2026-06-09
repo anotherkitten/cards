@@ -29,18 +29,9 @@ export class RecipeService {
   filterRecipes(text: String) {
     this.lastFilter = text;
 
-    this.filtered = this.available.filter(c => {
-      const card = CARD_TEMPLATES[c.id];
-
-      if (
-        text &&
-        !card.info.name.toLowerCase().includes(text.toLowerCase()) &&
-        !card.info.desc.replaceAll(/{(!R)?[a-zA-Z0-9-]+}/g,'').toLowerCase().includes(text.toLowerCase())
-      ) {
-        return false;
-      }
-
-      return true;
-    })
+    this.filtered = this.available
+      .map(c => CARD_TEMPLATES[c.id].toCard())
+      .filter(Card.textFilter(text))
+      .map(c => CARD_RECIPES[c.id]);
   }
 }

@@ -7,7 +7,7 @@ type CardFilter = (c: Card) => boolean;
 type CardOrderBy = (cards: Card[]) => void;
 
 export enum CardLocation {
-  HAND, DRAW, DISCARD, DECK
+  HAND, DRAW, DISCARD, DECK, OWNED
 }
 
 @Injectable({
@@ -102,18 +102,16 @@ export class CardService {
   craftCard(id: CardId) {
     const card = CARD_TEMPLATES[id].toCard(this.cardExecService)
     this.owned.push(card);
-    this.current_deck.push(card);
   }
 
   // CARD EFFECT HELPERS
   getCardsFrom(where: CardLocation, amount: number = 1, filters: CardFilter[] | CardFilter = [], order: CardOrderBy = Card.shuffle) {
-    console.log(amount);
-
     let selected_cards = 
       (where == CardLocation.HAND) ? this.hand :
       (where == CardLocation.DRAW) ? this.draw :
       (where == CardLocation.DISCARD) ? this.discard :
-      [this.hand, this.draw, this.discard].flat()
+      (where == CardLocation.DECK) ? this.current_deck :
+      this.owned
 
     for (let filter of [filters].flat()) {
       selected_cards = selected_cards.filter(filter);

@@ -1,0 +1,100 @@
+<div class="shelf" [class.show]="showing">
+	<div class="tab" (click)="open()">
+		<div>Deck</div>
+	</div>
+	
+	<div class="sections">
+		@if (!drilldownCard) {
+			<div class="lookup section">
+				<div class="header">
+					<div class="title">
+						Card Inventory
+					</div>
+					<div></div>
+				</div>
+				<div class="filters">
+					<input type="text" placeholder="Search for cards..." [(ngModel)]="search" (ngModelChange)="$searchChange.next($event)">
+				</div>
+				<div class="grid">
+					@if (lookupRows.length) {
+						@for (row of lookupRows; track (row[0].uuid.concat((row[1] ? row[1].uuid : '').toString()))) {
+							<div class="row">
+								@for (card of row; track card.uuid) {
+									<div class="card">
+										<app-card-visual [card]="card"></app-card-visual>
+										<div class="card-cover-lookup" (click)="drilldown(card)">
+											<div class="label">View Copies</div>
+										</div>
+									</div>
+								}
+							</div>
+						}
+					}
+				</div>
+			</div>
+		}
+		@if (drilldownCard) {
+			<div class="drilldown section">
+				<div class="header">
+					<div class="title">
+						Copies of {{drilldownCard.info.name}}
+					</div>
+					<div class="back" (click)="drilldownCard = null">
+						<div class="back-button"></div>
+					</div>
+				</div>
+				<div class="grid">
+					@if (drilldownRows.length) {
+						@for (row of drilldownRows; track (row[0].uuid.concat((row[1] ? row[1].uuid : '').toString()))) {
+							<div class="row">
+								@for (card of row; track card.uuid) {
+									<div class="card">
+										<app-card-visual [card]="card"></app-card-visual>
+										<div class="card-cover-drilldown" 
+											[class.not-in-deck]="!cardInDeck(card)"
+											[class.can-add]="!cardInDeck(card) && this.cardService.current_deck.length < 40"
+											(click)="addCardToDeck(card)">
+											<div class="label add">Add?</div>
+											<div class="label added">Added</div>
+										</div>
+									</div>
+								}
+							</div>
+						}
+					}
+				</div>
+			</div>
+		}
+		<div class="border"></div>
+		<div class="deck section">
+			<div class="header">
+				<div class="title">
+					Current Deck
+				</div>
+				<div></div>
+			</div>
+			<div class="grid">
+				@if (deckRows.length) {
+					@for (row of deckRows; track (row[0].uuid.concat((row[1] ? row[1].uuid : '').toString()))) {
+						<div class="row">
+							@for (card of row; track card.uuid) {
+								<div class="card">
+									<app-card-visual [card]="card"></app-card-visual>
+									<div class="card-cover-deck"
+										[class.can-remove]="cardService.current_deck.length >= 21" 
+										(click)="removeCardFromDeck(card)">
+										<div class="label">Remove?</div>
+									</div>
+								</div>
+							}
+						</div>
+					}
+				}
+			</div>
+		</div>
+	</div>
+
+	<div class="filters">
+		<input placeholder="Search for cards..." [(ngModel)]="search" (ngModelChange)="this.$searchChange.next($event)">
+	</div>
+</div>

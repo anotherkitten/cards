@@ -5,10 +5,11 @@ import { CardService } from '../services/card/card';
 import { CardExecutionService } from '../services/card-execution/card-execution';
 import { CardsComponent } from "../components/cards/cards";
 import { RecipesComponent } from "../components/recipes/recipes";
+import { DeckComponent } from '../components/deck/deck';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Inventory, CardsComponent, RecipesComponent],
+  imports: [RouterOutlet, Inventory, CardsComponent, RecipesComponent, DeckComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
