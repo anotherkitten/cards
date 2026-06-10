@@ -45,7 +45,7 @@ export class Resource {
 		this.id = id;
 		this.name = name;
 		this.color = color;
-		this.quantity = quantity || 100;
+		this.quantity = quantity || 0;
 	}
 }
 
