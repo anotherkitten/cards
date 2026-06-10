@@ -16,6 +16,7 @@
 							<app-card-visual [card]="card"></app-card-visual>
 							<div class="card-cover" [class.affordable]="affordable(card)" (click)="craft(card)">
 								<div class="label">Craft?</div>
+								<div class="label owned">(Owned: {{numberOwned(card)}})</div>
 							</div>
 
 							@for (cost of recipeComponents(recipes[card.id]); track cost) {

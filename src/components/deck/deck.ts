@@ -34,9 +34,9 @@ export class DeckComponent implements OnInit {
 
   open() {
     this.showing = !this.showing;
+    if (this.showing) this.drilldownCard = null;
 
     this.getLookupCards(this.search);
-    if (this.drilldownCard) this.getDrilldownCards(this.drilldownCard.id);
     this.getDeckCards();
   }
 
@@ -94,8 +94,6 @@ export class DeckComponent implements OnInit {
 
   drilldown(card: Card | null) {
     this.drilldownCard = card;
-
-    console.log(card);
 
     if (card) this.getDrilldownCards(card.id);
   }

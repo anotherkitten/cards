@@ -1,7 +1,12 @@
 export enum ResourceId {
 	WOOD = 'wood',
 	STONE = 'stone',
-	GOLD = 'gold'
+	WATER = 'water',
+	LAND = 'land',
+	WHEAT = 'wheat',
+	MANURE = 'manure',
+	COAL = 'coal',
+	METAL = 'metal'
 }
 
 export enum ResourceColor {
@@ -46,5 +51,10 @@ export class Resource {
 export const RESOURCE_LIB = {
 	[ResourceId.WOOD]: new Resource(ResourceId.WOOD, "Wood", ResourceColor.BROWN),
 	[ResourceId.STONE]: new Resource(ResourceId.STONE, "Stone", ResourceColor.BLACK),
-	[ResourceId.GOLD]: new Resource(ResourceId.GOLD, "Gold", ResourceColor.YELLOW),
+	[ResourceId.WATER]: new Resource(ResourceId.WATER, "Water", ResourceColor.BLUE),
+	[ResourceId.LAND]: new Resource(ResourceId.LAND, "Land", ResourceColor.GREEN),
+	[ResourceId.WHEAT]: new Resource(ResourceId.WHEAT, "Wheat", ResourceColor.YELLOW),
+	[ResourceId.MANURE]: new Resource(ResourceId.MANURE, "Manure", ResourceColor.BROWN),
+	[ResourceId.COAL]: new Resource(ResourceId.COAL, "Coal", ResourceColor.BLACK),
+	[ResourceId.METAL]: new Resource(ResourceId.METAL, "Metal", ResourceColor.WHITE),
 }

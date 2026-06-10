@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { CardService } from '../../services/card/card';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../models/card';
 import { CardComponent } from './card/card';
 import { interval, Subscription } from 'rxjs';
-import { X } from '@angular/cdk/keycodes';
 import { DeckViewComponent } from "./deck-view/deck-view";
 
 @Component({
@@ -14,7 +13,7 @@ import { DeckViewComponent } from "./deck-view/deck-view";
   styleUrl: './cards.css',
 })
 export class CardsComponent implements OnInit{
-  redrawTime: number = 10e3;
+  redrawTime: number = 5e3;
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   cardService: CardService = inject(CardService);
   lastRedraw: number = Date.now();
@@ -39,6 +38,17 @@ export class CardsComponent implements OnInit{
   ngAfterViewInit() {
     const canvas: HTMLCanvasElement = this.redrawCanvas!.nativeElement;
     this.canvasContext = canvas.getContext("2d")!;
+  }
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboard(event: KeyboardEvent) {
+    if (event.key === ' ') {
+      this.drawNewHand();
+    }
+
+    if (!isNaN(+event.key) && +event.key && +event.key <= this.cardService.hand.length) {
+      this.play(this.cardService.hand[+event.key - 1]);
+    }
   }
 
   updateTimer() {

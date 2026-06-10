@@ -70,7 +70,7 @@ export class CardService {
   }
 
   play(card: Card) {
-    card.effect(card);
+    card.effect(card, card.exec!);
     this.discardCard(card);
   }
 
@@ -87,15 +87,15 @@ export class CardService {
       CardId.RELAX,
       CardId.RELAX,
       CardId.CHOP_WOOD,
-      CardId.CHOP_WOOD,
-      CardId.CHOP_WOOD,
-      CardId.CHOP_WOOD,
+      CardId.MINE_STONE,
       CardId.CHOP_WOOD,
       CardId.MINE_STONE,
+      CardId.CHOP_WOOD,
       CardId.MINE_STONE,
+      CardId.CHOP_WOOD,
       CardId.MINE_STONE,
+      CardId.CHOP_WOOD,
       CardId.MINE_STONE,
-      CardId.MINE_STONE
     ].map(id => CARD_TEMPLATES[id]).map(template => template.toCard(this.cardExecService));
   }
 

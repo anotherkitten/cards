@@ -79,6 +79,10 @@ export class RecipesComponent implements OnInit {
     }
   }
 
+  numberOwned(c: Card) {
+    return this.cardService.owned.filter(card => card.id === c.id).length;
+  }
+
   recipeComponents(r: CardRecipe) {
     return Object.keys(r.cost);
   }

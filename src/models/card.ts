@@ -4,7 +4,7 @@ import { Resource, ResourceId } from './resource';
 type CardTags = CardTag[];
 type CardData = {[key: string]: String};
 type CardRecipeCosts = {[key: string]: number};
-type CardEffect = (c: Card) => void;
+type CardEffect = (c: Card, exec: CardExecutionService) => void;
 type CardFilter = (c: Card) => boolean;
 
 export enum CardColor {
@@ -21,6 +21,7 @@ export enum CardColor {
 }
 
 export enum CardId {
+	//unlocked by default
 	RELAX = 'relax',
 	CHOP_WOOD = 'chop-wood',
 	MINE_STONE = 'mine-stone',
@@ -29,11 +30,57 @@ export enum CardId {
 	TOOL_CART = 'tool-cart',
 	LUMBERYARD = 'lumberyard',
 	QUARRY = 'quarry',
+
+	////early agriculture
+	// first buy
+	WATER_WELL = 'water-well', // +5 water
+	TILL_SOIL = 'till-soil', // -1 water, +3 land
+	GROW_WHEAT = 'grow-wheat', // -1 land; grow (1/5): +2 wheat
+	// // additional
+	// WATERING_CAN = 'watering-can', // -3 water, +2 growth to all crops in hand
+	// IRRIGATE = 'irrigate', // -8 water, +12 land
+	// FEED_ANIMALS = 'feed-animals', // -5 wheat, +2 manure
+	// FERTILIZE = 'fertilize', // -3 manure, permanently speed up growth of all crops in hand
+	// BAKE_BREAD = 'bake-bread', // -4 wheat, -2 coal, +6 bread
+	// SIMPLE_LUNCH = 'simple-lunch', // -2 bread to draw 3 cards
+	EXPEDITION = 'expedition', // -5 land, +3 wood, +3 stone
+
+	////simple mining
+	//first buy
+	MINE_COAL = 'mine-coal', // 40%: +2 coal
+	SMELT_ORE = 'smelt-ore', // -3 coal, -6 stone, +1 metal
+	FURNACE = 'furnace', // -1 coal, +2 metal to cards in hand 
+	// // additional
+	// CHARCOAL = 'charcoal', // -6 wood, +3 coal
+	// LANTERN = 'lantern', // other cards have +30% probability to find resources 
+	// PROSPECTING = 'prospecting', // 20%: +6 coal, +1 metal
+	METAL_AXE = 'metal-axe', // +6 to all wood cards in hand
+	METAL_PICK = 'metal-pick', // +6 to all stone cards in hand
+	WATER_PIPE = 'water-pipe', // +12 water
+	// GRAPPLE_HOOK = 'grapple-hook', // put 2 other random cards from your discard pile into your hand
+
+	// //// improved basics
+	// TOOLBOX = 'toolbox', // draw 3 tool cards from your deck
+	// SAWMILL = 'sawmill', // -6 water, +9 wood
+	// BLAST_MINE = 'blast-mine', // -2 coal, +9 stone
+    // SCYTHE = 'scythe', // +4 wheat to cards in hand
+	// COAL_VEIN = 'coal-vein', // 70%: +3 coal
+	// CAMPFIRE = 'campfire', // 
+
 }
 
 export enum CardTag {
 	WOOD_PROVIDER = 'wood-provider',
 	STONE_PROVIDER = 'stone-provider',
+	WATER_PROVIDER = 'water-provider',
+	LAND_PROVIDER = 'land-provider',
+	MANURE_PROVIDER = 'manure-provider',
+	WHEAT_PROVIDER = 'wheat-provider',
+	BREAD_PROVIDER = 'bread-provider',
+	COAL_PROVIDER = 'coal-provider',
+	METAL_PROVIDER = 'metal-provider',
+	PROBABILITY = 'probability',
+	GROW = 'grow',
 	TOOL = 'tool'
 }
 
@@ -76,6 +123,9 @@ export class CardTemplate {
 
 	toCard(exec?: CardExecutionService): Card {
 		const card = new Card(exec || null, this.id, this.info, this.tags, this.initial_data, this.effect, this.playable);
+
+		if (this.tags.includes(CardTag.GROW)) card.data['growturn'] = '1';
+
 		return card;
 	}
 }
@@ -165,10 +215,22 @@ export class Card {
 	}
 
 	populate(input: String): String {
-		// populate resource data first (might be modified)
+		// populate resource data first 
 		const resource_data = (input.match(/{!R[a-zA-Z0-9-]+}/g) || []).map(data => data.replaceAll(/{!R|}/g,''));
 		for (let datum of resource_data) {
 			input = input.replace(`{!R${datum}}`, this.getResourceFromData(datum).toString());
+		}
+
+		// populate grow data 
+		const grow_data = (input.match(/{!G}/g) || []).map(data => data.replaceAll(/{!G|}/g,''));
+		for (let datum of grow_data) {
+			input = input.replace(`{!G${datum}}`, `(${this.getNum('growturn')}/${this.getNum('grow')})`);
+		}
+
+		// populate probability data 
+		const probability_data = (input.match(/{!P}/g) || []).map(data => data.replaceAll(/{!P|}/g,''));
+		for (let datum of probability_data) {
+			input = input.replace(`{!P${datum}}`, `${this.getProbability()}%`);
 		}
 
 		// generic data
@@ -182,6 +244,10 @@ export class Card {
 
 	hasTag = (tag: CardTag | String) => {
 		return this.tags.map(t => t.toLowerCase().toString()).includes(tag.toLowerCase().toString());
+	}
+
+	getProbability() {
+		return this.getNum('probability') + this.getNum('temporary-probability');
 	}
 
 	getResourceFromData(id: ResourceId | String) {
