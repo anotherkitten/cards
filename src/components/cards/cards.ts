@@ -25,6 +25,9 @@ export class CardsComponent implements OnInit{
   showTimer: boolean = false;
   viewingDeck: String = '';
 
+  autoplayEnabled: boolean = false;
+  autoplayCounter: number = 0;
+
   ngOnInit() {
     this.$updateTimer = interval(100).subscribe(() => this.updateTimer());
   }
@@ -46,7 +49,13 @@ export class CardsComponent implements OnInit{
   }
 
   updateTimer() {
-    if (!this.canvasContext) return;
+    this.autoplayCounter++;
+    if (this.autoplayCounter == 3) this.autoplay();
+
+    if (!this.canvasContext) {
+      if (!this.redrawCanvas) return;
+      this.canvasContext = (this.redrawCanvas.nativeElement as HTMLCanvasElement).getContext("2d")!;
+    }
 
     this.canvasContext!.fillStyle="#FAFAFA6A";
     const percentToRedraw = Math.min(1 - (this.nextRedraw - Date.now()) / (this.nextRedraw - this.lastRedraw), 1);
@@ -59,6 +68,15 @@ export class CardsComponent implements OnInit{
     path.moveTo(160,160);
     path.arc(160,160,160,0,-Math.min(percentToRedraw,.999) * 2 * Math.PI, true);
     this.canvasContext!.fill(path);
+  }
+
+  autoplay() {
+    this.autoplayCounter = 0;
+
+    if (this.autoplayEnabled) {
+      if (this.cardService.hand.length) this.play(this.cardService.hand[0]);
+      else this.drawNewHand();
+    }
   }
 
   drawNewHand() {

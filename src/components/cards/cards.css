@@ -29,6 +29,10 @@
 	justify-content: center;
 }
 
+.card-pile.autoplay-toggle {
+	top: 144px;
+}
+
 .card-redraw {
 	position: fixed;
 	bottom: 24px;

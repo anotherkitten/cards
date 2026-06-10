@@ -4,6 +4,12 @@
 	}
 </div>
 
+<div class="card-pile autoplay-toggle">
+	<button (click)="autoplayEnabled = !autoplayEnabled">
+		Autoplay {{autoplayEnabled ? 'On' : 'Off'}}
+	</button>
+</div>
+
 <div class="card-redraw" [ngClass]="showTimer ? 'clicked' : ''">
 	<button (click)="drawNewHand()" [ngClass]="showTimer ? 'hide' : ''">
 		Redraw
