@@ -151,6 +151,8 @@ export class CardService {
   craftCard(id: CardId) {
     const card = CARD_TEMPLATES[id].toCard(this.cardExecService)
     this.owned.push(card);
+    
+    if (this.current_deck.length < 40) this.current_deck.push(card);
   }
 
   // CARD EFFECT HELPERS

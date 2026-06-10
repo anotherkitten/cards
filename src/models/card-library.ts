@@ -451,10 +451,10 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 	}),
 	[CardId.LUMBERYARD]: new CardRecipe(CardId.LUMBERYARD, {
 		'wood': 12,
-		'stone': 20
+		'stone': 16
 	}),
 	[CardId.QUARRY]: new CardRecipe(CardId.QUARRY, {
-		'wood': 20,
+		'wood': 16,
 		'stone': 12
 	}),
 	[CardId.WATER_WELL]: new CardRecipe(CardId.WATER_WELL, {
