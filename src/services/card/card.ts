@@ -24,6 +24,8 @@ export class CardService {
   hand: Card[] = [];
   discard: Card[] = [];
 
+  last_played: Card | null = null;
+
   discardCard(c: Card) {
     for (let tempData of Object.keys(c.data).filter(k => k.startsWith('temporary'))) {
       c.data[tempData] = '';
@@ -69,9 +71,18 @@ export class CardService {
     })
   }
 
+  moveToHand(card: Card) {
+    if (this.current_deck.includes(card) && !this.hand.includes(card)) {
+      this.hand.push(card);
+      this.draw = this.draw.filter(c => c.uuid !== card.uuid);
+      this.discard = this.discard.filter(c => c.uuid !== card.uuid);
+    }
+  }
+
   play(card: Card) {
     card.effect(card, card.exec!);
     this.discardCard(card);
+    this.last_played = card;
   }
 
   getDefaultDeck() {

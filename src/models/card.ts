@@ -37,12 +37,12 @@ export enum CardId {
 	TILL_SOIL = 'till-soil', // -1 water, +3 land
 	GROW_WHEAT = 'grow-wheat', // -1 land; grow (1/5): +2 wheat
 	// // additional
-	// WATERING_CAN = 'watering-can', // -3 water, +2 growth to all crops in hand
-	// IRRIGATE = 'irrigate', // -8 water, +12 land
-	// FEED_ANIMALS = 'feed-animals', // -5 wheat, +2 manure
-	// FERTILIZE = 'fertilize', // -3 manure, permanently speed up growth of all crops in hand
-	// BAKE_BREAD = 'bake-bread', // -4 wheat, -2 coal, +6 bread
-	// SIMPLE_LUNCH = 'simple-lunch', // -2 bread to draw 3 cards
+	WATERING_CAN = 'watering-can', // -3 water, +2 growth to all crops in hand 
+	IRRIGATE = 'irrigate', // -6 water, +12 land
+	FEED_ANIMALS = 'feed-animals', // -3 wheat, +2 manure
+	FERTILIZE = 'fertilize', // -6 manure, permanently speed up growth of all crops in hand
+	BAKE_BREAD = 'bake-bread', // -4 wheat, -2 coal, +6 bread
+	QUICK_SNACK = 'quick-snack', // -1 bread to draw 2 cards
 	EXPEDITION = 'expedition', // -5 land, +3 wood, +3 stone
 
 	////simple mining
@@ -51,18 +51,18 @@ export enum CardId {
 	SMELT_ORE = 'smelt-ore', // -3 coal, -6 stone, +1 metal
 	FURNACE = 'furnace', // -1 coal, +2 metal to cards in hand 
 	// // additional
-	// CHARCOAL = 'charcoal', // -6 wood, +3 coal
-	// LANTERN = 'lantern', // other cards have +30% probability to find resources 
-	// PROSPECTING = 'prospecting', // 20%: +6 coal, +1 metal
+	CHARCOAL = 'charcoal', // -6 wood, +3 coal
+	LANTERN = 'lantern', // other cards have +30% probability to find resources 
+	PROSPECTING = 'prospecting', // 20%: +6 coal, +1 metal
 	METAL_AXE = 'metal-axe', // +6 to all wood cards in hand
 	METAL_PICK = 'metal-pick', // +6 to all stone cards in hand
 	WATER_PIPE = 'water-pipe', // +12 water
-	// GRAPPLE_HOOK = 'grapple-hook', // put 2 other random cards from your discard pile into your hand
+	HOOK = 'hook', // return the last played card to your hand
 
 	// //// improved basics
 	// TOOLBOX = 'toolbox', // draw 3 tool cards from your deck
-	// SAWMILL = 'sawmill', // -6 water, +9 wood
-	// BLAST_MINE = 'blast-mine', // -2 coal, +9 stone
+	// SAWMILL = 'sawmill', // -5 water, +9 wood
+	// BLAST_MINE = 'blast-mine', // -3 coal, +9 stone
     // SCYTHE = 'scythe', // +4 wheat to cards in hand
 	// COAL_VEIN = 'coal-vein', // 70%: +3 coal
 	// CAMPFIRE = 'campfire', // 
@@ -230,7 +230,7 @@ export class Card {
 		// populate probability data 
 		const probability_data = (input.match(/{!P}/g) || []).map(data => data.replaceAll(/{!P|}/g,''));
 		for (let datum of probability_data) {
-			input = input.replace(`{!P${datum}}`, `${this.getProbability()}%`);
+			input = input.replace(`{!P${datum}}`, `${Math.min(this.getProbability(), 100)}%`);
 		}
 
 		// generic data

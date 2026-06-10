@@ -155,6 +155,115 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			}) 
 		},
 	),
+	[CardId.WATERING_CAN]: new CardTemplate(CardId.WATERING_CAN,
+		new CardInfo(
+			'Watering Can',
+			'Spend 3 water, speed up growth of all cards in hand by 1.',
+			'',
+			CardColor.WHITE
+		),
+		[ CardTag.TOOL ],
+		{ },
+		(c: Card, x: CardExecutionService) => {
+			x.cards().getCardsFrom(CardLocation.HAND, Infinity, Card.tagFilter(CardTag.GROW)).forEach(growCard => {
+				growCard.set('growturn', Math.min(growCard.getNum('grow'), growCard.getNum('growturn') + 1));
+			})
+		},
+	),
+	[CardId.IRRIGATE]: new CardTemplate(CardId.IRRIGATE,
+		new CardInfo(
+			'Irrigate',
+			'Spend 6 water, gain {!Rland} land.',
+			'',
+			CardColor.GREEN
+		),
+		[ CardTag.LAND_PROVIDER ],
+		{ land: '12' },
+		(c: Card, x: CardExecutionService) => {
+			x.spend(c, [ResourceId.WATER, 6], () => {
+				x.addResourceByData(ResourceId.LAND, c);
+			})
+		},
+	),
+	[CardId.FEED_ANIMALS]: new CardTemplate(CardId.FEED_ANIMALS,
+		new CardInfo(
+			'Feed Livestock',
+			'Spend 3 wheat to gain {!Rmanure} manure.',
+			'',
+			CardColor.BROWN
+		),
+		[ CardTag.MANURE_PROVIDER ],
+		{ manure: '2' },
+		(c: Card, x: CardExecutionService) => {
+			x.spend(c, [ResourceId.WHEAT, 3], () => {
+				x.addResourceByData(ResourceId.MANURE, c);
+			})
+		},
+	),
+	[CardId.FERTILIZE]: new CardTemplate(CardId.FERTILIZE,
+		new CardInfo(
+			'Fertilize',
+			'Spend 6 manure to permanently speed up the growth of cards in hand by 1.',
+			'',
+			CardColor.BROWN
+		),
+		[ ],
+		{ },
+		(c: Card, x: CardExecutionService) => {
+			x.spend(c, [ResourceId.MANURE, 6], () => {
+				x.cards().getCardsFrom(CardLocation.HAND, Infinity, Card.tagFilter(CardTag.GROW)).forEach(growCard => {
+					growCard.set('grow', Math.max(1, growCard.getNum('grow') - 1));
+					growCard.set('growturn', Math.min(growCard.getNum('grow'), growCard.getNum('growturn')));
+				})
+			})
+		},
+	),
+	[CardId.BAKE_BREAD]: new CardTemplate(CardId.BAKE_BREAD,
+		new CardInfo(
+			'Bake Bread',
+			'Spend 4 wheat and 2 coal to gain {!Rbread} bread.',
+			'',
+			CardColor.YELLOW
+		),
+		[ CardTag.BREAD_PROVIDER ],
+		{ bread: '6' },
+		(c: Card, x: CardExecutionService) => {
+			x.spend(c, [[ResourceId.WHEAT, 4], [ResourceId.COAL, 2]], () => {
+				x.addResourceByData(ResourceId.BREAD, c);
+			})
+		},
+	),
+	[CardId.QUICK_SNACK]: new CardTemplate(CardId.QUICK_SNACK,
+		new CardInfo(
+			'Quick Snack',
+			'Spend 1 bread to draw 2 cards.',
+			'',
+			CardColor.YELLOW
+		),
+		[ ],
+		{ },
+		(c: Card, x: CardExecutionService) => {
+			x.spend(c, [ResourceId.BREAD, 1], () => {
+				x.cards().drawCards(2);
+			})
+		},
+	),
+	[CardId.EXPEDITION]: new CardTemplate(CardId.EXPEDITION,
+		new CardInfo(
+			'Expedition',
+			'Spend 3 land to gain {!Rwood} wood and {!Rstone} stone',
+			'',
+			CardColor.GREEN
+		),
+		[ CardTag.STONE_PROVIDER, CardTag.WOOD_PROVIDER ],
+		{ wood: '2', stone: '2' },
+		(c: Card, x: CardExecutionService) => {
+			x.spend(c, [ResourceId.LAND, 3], () => {
+				x.addResourceByData(ResourceId.WOOD, c);
+				x.addResourceByData(ResourceId.STONE, c);
+			})
+		},
+	),
 	[CardId.MINE_COAL]: new CardTemplate(CardId.MINE_COAL,
 		new CardInfo(
 			'Mine Coal',
@@ -204,6 +313,50 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			})
 		},
 	),
+	[CardId.CHARCOAL]: new CardTemplate(CardId.CHARCOAL,
+		new CardInfo(
+			'Charcoal',
+			'Spend 6 wood to gain {!Rcoal} coal.',
+			'',
+			CardColor.BLACK
+		),
+		[ CardTag.COAL_PROVIDER ],
+		{ coal: '3' },
+		(c: Card, x: CardExecutionService) => {
+			x.addResourceByData(ResourceId.COAL, c);
+		},
+	),
+	[CardId.LANTERN]: new CardTemplate(CardId.LANTERN,
+		new CardInfo(
+			'Lantern',
+			'Increase probability of cards in hand by 30%.',
+			'',
+			CardColor.WHITE
+		),
+		[ CardTag.TOOL ],
+		{ },
+		(c: Card, x: CardExecutionService) => {
+			x.cards().getCardsFrom(CardLocation.HAND, Infinity, Card.tagFilter(CardTag.PROBABILITY)).forEach(probabilityCard => {
+				probabilityCard.set('temporary-probability', probabilityCard.getNum('temporary-probability') + 30);
+			});
+		},
+	),
+	[CardId.PROSPECTING]: new CardTemplate(CardId.PROSPECTING,
+		new CardInfo(
+			'Prospecting',
+			'{!P}: Gain {!Rcoal} coal and {!Rmetal} metal.',
+			'',
+			CardColor.BLACK
+		),
+		[ CardTag.COAL_PROVIDER, CardTag.METAL_PROVIDER, CardTag.PROBABILITY ],
+		{ probability: '20', coal: '6', metal: '1' },
+		(c: Card, x: CardExecutionService) => {
+			x.probability(c, () => {
+				x.addResourceByData(ResourceId.COAL, c);
+				x.addResourceByData(ResourceId.METAL, c);
+			})
+		},
+	),
 	[CardId.METAL_AXE]: new CardTemplate(CardId.METAL_AXE,
 		new CardInfo(
 			'Metal Axe',
@@ -211,7 +364,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			'',
 			CardColor.WHITE
 		),
-		[ ],
+		[ CardTag.TOOL ],
 		{ },
 		(c: Card, x: CardExecutionService) => {
 			x.cards().getCardsFrom(
@@ -228,7 +381,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			'',
 			CardColor.WHITE
 		),
-		[ ],
+		[ CardTag.TOOL ],
 		{ },
 		(c: Card, x: CardExecutionService) => {
 			x.cards().getCardsFrom(
@@ -251,21 +404,20 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			x.addResourceByData(ResourceId.WATER, c);
 		},
 	),
-	[CardId.EXPEDITION]: new CardTemplate(CardId.EXPEDITION,
+	[CardId.HOOK]: new CardTemplate(CardId.HOOK,
 		new CardInfo(
-			'Expedition',
-			'Spend 3 land to gain {!Rwood} wood and {!Rstone} stone',
+			'Hook',
+			'Return the last played card to hand.',
 			'',
-			CardColor.GREEN
+			CardColor.WHITE
 		),
-		[ CardTag.STONE_PROVIDER, CardTag.WOOD_PROVIDER ],
-		{ wood: '2', stone: '2' },
+		[ CardTag.TOOL ],
+		{ },
 		(c: Card, x: CardExecutionService) => {
-			x.spend(c, [ResourceId.LAND, 3], () => {
-				x.addResourceByData(ResourceId.WOOD, c);
-				x.addResourceByData(ResourceId.STONE, c);
-			})
-		},
+			if (x.cards().last_played) {
+				x.cards().moveToHand(x.cards().last_played!);
+			}
+		},	
 	),
 	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
 	// 	new CardInfo(
@@ -276,106 +428,9 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 	// 	),
 	// 	[ REPLACEME ],
 	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
-	// ),
-	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
-	// 	new CardInfo(
-	// 		'REPLACEME',
-	// 		'REPLACEME',
-	// 		'',
-	// 		CardColor.REPLACEME
-	// 	),
-	// 	[ REPLACEME ],
-	// 	{ REPLACEME },
-	// 	(c: Card, x: CardExecutionService) => { REPLACEME },
+	// 	(c: Card, x: CardExecutionService) => {
+			
+	// 	},	
 	// ),
 }
 
@@ -404,19 +459,45 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 		'stone': 12
 	}),
 	[CardId.WATER_WELL]: new CardRecipe(CardId.WATER_WELL, {
-		'stone': 30
+		'stone': 25
 	}),
 	[CardId.TILL_SOIL]: new CardRecipe(CardId.TILL_SOIL, {
-		'wood': 15,
-		'water': 20
+		'wood': 10,
+		'water': 15
 	}),
 	[CardId.GROW_WHEAT]: new CardRecipe(CardId.GROW_WHEAT, {
 		'water': 10,
 		'land': 15
 	}),
+	[CardId.WATERING_CAN]: new CardRecipe(CardId.WATERING_CAN, {
+		'water': 12,
+		'metal': 8
+	}),
+	[CardId.IRRIGATE]: new CardRecipe(CardId.IRRIGATE, {
+		'water': 20,
+		'land': 10
+	}),
+	[CardId.FEED_ANIMALS]: new CardRecipe(CardId.FEED_ANIMALS, {
+		'land': 10,
+		'wheat': 5
+	}),
+	[CardId.FERTILIZE]: new CardRecipe(CardId.FERTILIZE, {
+		'manure': 10
+	}),
+	[CardId.BAKE_BREAD]: new CardRecipe(CardId.BAKE_BREAD, {
+		'water': 10,
+		'wheat': 10
+	}),
+	[CardId.QUICK_SNACK]: new CardRecipe(CardId.QUICK_SNACK, {
+		'bread': 5
+	}),
+	[CardId.EXPEDITION]: new CardRecipe(CardId.EXPEDITION, {
+		'land': 15,
+		'water': 40
+	}),
 	[CardId.MINE_COAL]: new CardRecipe(CardId.MINE_COAL, {
 		'wood': 25,
-		'stone': 15
+		'stone': 10
 	}),
 	[CardId.SMELT_ORE]: new CardRecipe(CardId.SMELT_ORE, {
 		'stone': 20,
@@ -425,6 +506,17 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 	[CardId.FURNACE]: new CardRecipe(CardId.FURNACE, {
 		'stone': 40,
 		'coal': 8
+	}),
+	[CardId.CHARCOAL]: new CardRecipe(CardId.CHARCOAL, {
+		'wood': 25,
+		'coal': 5
+	}),
+	[CardId.LANTERN]: new CardRecipe(CardId.LANTERN, {
+		'coal': 10,
+		'metal': 4
+	}),
+	[CardId.PROSPECTING]: new CardRecipe(CardId.PROSPECTING, {
+		'land': 30
 	}),
 	[CardId.METAL_AXE]: new CardRecipe(CardId.METAL_AXE, {
 		'wood': 25,
@@ -435,10 +527,10 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 		'metal': 10
 	}),
 	[CardId.WATER_PIPE]: new CardRecipe(CardId.WATER_PIPE, {
-		'metal': 20
+		'water': 20,
+		'metal': 15
 	}),
-	[CardId.EXPEDITION]: new CardRecipe(CardId.EXPEDITION, {
-		'land': 15,
-		'water': 40
+	[CardId.HOOK]: new CardRecipe(CardId.HOOK, {
+		'metal': 20
 	}),
 }

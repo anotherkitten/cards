@@ -16,13 +16,23 @@ export class RecipeService {
     CardId.WATER_WELL,
     CardId.TILL_SOIL,
     CardId.GROW_WHEAT,
+    CardId.WATERING_CAN,
+    CardId.IRRIGATE,
+    CardId.FEED_ANIMALS,
+    CardId.FERTILIZE,
+    CardId.BAKE_BREAD,
+    CardId.QUICK_SNACK,
+    CardId.EXPEDITION,
     CardId.MINE_COAL,
     CardId.SMELT_ORE,
     CardId.FURNACE,
+    CardId.CHARCOAL,
+    CardId.LANTERN,
+    CardId.PROSPECTING,
     CardId.METAL_AXE,
     CardId.METAL_PICK,
     CardId.WATER_PIPE,
-    CardId.EXPEDITION
+    CardId.HOOK,
   ]
   available: CardRecipe[] = [];
   filtered: CardRecipe[] = [];
