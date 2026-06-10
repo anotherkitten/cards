@@ -1,4 +1,4 @@
-import { CardExecutionService } from "../services/card-execution/card-execution";
+import { CardExecutionService } from '../services/card-execution/card-execution';
 import { Resource, ResourceId } from './resource';
 
 type CardTags = CardTag[];
@@ -84,6 +84,10 @@ export enum CardTag {
 	TOOL = 'tool'
 }
 
+export enum CardLocation {
+  HAND, DRAW, DISCARD, DECK, OWNED, DRAW_NOT_IN_DECK, HAND_NOT_IN_DECK, DISCARD_NOT_IN_DECK
+}
+
 export const VISIBLE_TAGS: {[key: string]: String} = {
 	'tool': 'Tool'
 }
@@ -131,12 +135,14 @@ export class CardTemplate {
 }
 
 export class SavedCard {
-	id: String;
+	id: CardId;
 	data: CardData;
+	location: CardLocation;
 
-	constructor(id: String, data: CardData) {
+	constructor(id: CardId, data: CardData, location: CardLocation) {
 		this.id = id;
 		this.data = data;
+		this.location = location;
 	}
 }
 
@@ -165,6 +171,7 @@ export class CardRecipe {
 export class Card {
 	id: CardId;
 	uuid: String;
+	time: number = Date.now();
 	exec: CardExecutionService | null;
 	info: CardInfo;
 	tags: CardTags = [];
@@ -181,10 +188,6 @@ export class Card {
 		this.data = Object.assign({}, initial_data);
 		this.effect = effect;
 		this.playable = playable;
-	}
-
-	loadData(data: CardData) {
-		this.data = data;
 	}
 
 	hasData = (data_tag: String) => {
@@ -254,11 +257,13 @@ export class Card {
 		return this.getNum(id) + this.getNum(`temporary-${id}`);
 	}
 
-	static shuffle(cards: Card[]) {
+	static shuffle(cards: Card[]): Card[] {
 		for (let i = cards.length - 1; i > 0; i--) {
-		const j = (Math.random() * (i + 1)) | 0;
-		[cards[i], cards[j]] = [cards[j], cards[i]];
+			const j = (Math.random() * (i + 1)) | 0;
+			[cards[i], cards[j]] = [cards[j], cards[i]];
 		}
+
+		return cards;
 	}
 
 	static byOrdinal(cards: Card[]) {

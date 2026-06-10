@@ -30,10 +30,14 @@ export class ResourceService {
 
     saved.forEach(save => {
       if (save.unlocked) this.unlocked.push(save.id);
-      this.safeGet(save.id).quantity = save.quantity;
+      if (this.haveResource(save.id)) this.safeGet(save.id).quantity = save.quantity;
     })
 
     this.sendUpdates();
+  }
+
+  private haveResource(s: String) {
+    return Object.values(ResourceId).map(id => id.toLowerCase()).includes(s.toLowerCase());
   }
 
   private resourceIdFromString(s: String): ResourceId {

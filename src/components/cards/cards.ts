@@ -26,12 +26,6 @@ export class CardsComponent implements OnInit{
   viewingDeck: String = '';
 
   ngOnInit() {
-    this.cardService.owned = this.cardService.getDefaultDeck();
-    this.cardService.current_deck = [...this.cardService.owned];
-    this.cardService.draw = [...this.cardService.owned];
-    Card.shuffle(this.cardService.draw);
-    this.cardService.drawCards(5);
-
     this.$updateTimer = interval(100).subscribe(() => this.updateTimer());
   }
 

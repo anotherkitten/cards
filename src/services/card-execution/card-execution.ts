@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { ResourceService } from '../resource/resource';
 import { ResourceId } from '../../models/resource';
-import { Card, CardTag } from '../../models/card';
-import { CardLocation, CardService } from '../card/card';
-import { pairs } from 'rxjs';
+import { Card } from '../../models/card';
+import { CardService } from '../card/card';
 
 type Callback = () => void;
 

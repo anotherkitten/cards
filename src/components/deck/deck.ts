@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CardLocation, CardService } from '../../services/card/card';
+import { CardService } from '../../services/card/card';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { Card, CARD_ID_ORDINALS, CardId } from '../../models/card';
+import { Card, CARD_ID_ORDINALS, CardId, CardLocation } from '../../models/card';
 import { CardVisualComponent } from '../cards/card-visual/card-visual';
 import { CARD_TEMPLATES } from '../../models/card-library';
 

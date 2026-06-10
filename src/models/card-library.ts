@@ -1,5 +1,4 @@
-import { CardLocation } from '../services/card/card';
-import { CardColor, CardId, CardInfo, CardTemplate, CardTag, Card, CardRecipe } from './card';
+import { CardColor, CardId, CardInfo, CardTemplate, CardTag, Card, CardRecipe, CardLocation } from './card';
 import { ResourceId } from './resource';
 import { CardExecutionService } from '../services/card-execution/card-execution';
 
