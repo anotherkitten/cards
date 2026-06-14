@@ -7,7 +7,7 @@ export enum ResourceId {
 	MANURE = 'manure',
 	BREAD = 'bread',
 	COAL = 'coal',
-	METAL = 'metal'
+	METAL = 'metal',
 }
 
 export enum ResourceColor {

@@ -1,0 +1,45 @@
+<div class="click-out" (click)="close()">
+</div>
+
+<div class="pack-view-container">
+	<div class="pack-view">
+		@if (obtained) {
+			<div class="section-title"> Cards unlocked! </div>
+			@for (row of obtainedRows; track $index) {
+				<div class="row">
+					@for (card of row; track card.uuid) {
+						<div class="card">
+							<app-card-visual [card]="card"></app-card-visual>
+						</div>
+					}
+				</div>
+			}
+		}
+		@else { 
+			@if (hasFirstBonus()) {
+				<div class="section-title">Receive the following when opening for the first time:</div>
+				@for (row of firstRows; track $index) {
+					<div class="row">
+						@for (card of row; track card.uuid) {
+							<div class="card">
+								<app-card-visual [card]="card" [class.dark]="!info!.available.includes(card.id)"></app-card-visual>
+								<div class="cover" [class.show]="!info!.available.includes(card.id)"> Obtained </div>
+							</div>
+						}
+					</div>
+				}
+			}
+			<div class="section-title"> Receive 2 of the following {{ hasFirstBonus() ? 'on successive openings' : 'when opening' }}: </div>
+			@for (row of otherRows; track $index) {
+				<div class="row">
+					@for (card of row; track card.uuid) {
+						<div class="card">
+							<app-card-visual [card]="card" [class.dark]="!info!.available.includes(card.id)"></app-card-visual>
+							<div class="cover" [class.show]="!info!.available.includes(card.id)"> Obtained </div>
+						</div>
+					}
+				</div>
+			}
+		}
+	</div>
+</div>

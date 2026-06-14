@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CardService } from '../../services/card/card';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -14,9 +14,8 @@ const UUID_SORT = (a: Card, b: Card) => a.uuid > b.uuid ? 1 : -1;
   templateUrl: './deck.html',
   styleUrl: './deck.css',
 })
-export class DeckComponent implements OnInit {
+export class DeckComponent implements OnInit, OnDestroy {
   cardService: CardService = inject(CardService);
-  showing: boolean = false;
   search: String = '';
   $searchChange: Subject<String> = new Subject();
 
@@ -30,14 +29,12 @@ export class DeckComponent implements OnInit {
 
   ngOnInit() {
     this.$searchChange.subscribe(search => this.getLookupCards(search));
-  }
-
-  open() {
-    this.showing = !this.showing;
-    if (this.showing) this.drilldownCard = null;
-
     this.getLookupCards(this.search);
     this.getDeckCards();
+  }
+
+  ngOnDestroy() {
+    this.$searchChange.unsubscribe();
   }
 
   getLookupCards(search: String) {
@@ -53,7 +50,7 @@ export class DeckComponent implements OnInit {
       CardLocation.OWNED,
       Infinity,
       [(c) => c.id === card],
-      (cards) => cards.sort(UUID_SORT)
+      (cards) => cards.sort(UUID_SORT).sort((a, b) => a.time - b.time)
     );
     this.createDrilldownRows();
   }
@@ -63,7 +60,7 @@ export class DeckComponent implements OnInit {
       CardLocation.DECK,
       Infinity,
       [],
-      (cards) => cards.sort(UUID_SORT).sort((a, b) => CARD_ID_ORDINALS[a.id] - CARD_ID_ORDINALS[b.id])
+      (cards) => cards.sort(UUID_SORT).sort((a, b) => a.time - b.time).sort((a, b) => CARD_ID_ORDINALS[a.id] - CARD_ID_ORDINALS[b.id])
     );
     this.createDeckRows();
   }

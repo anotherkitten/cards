@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RecipeService } from '../../services/recipe/recipe';
 import { CardService } from '../../services/card/card';
@@ -6,7 +6,7 @@ import { ResourceService } from '../../services/resource/resource';
 import { CARD_RECIPES, CARD_TEMPLATES } from '../../models/card-library';
 import { Card, CardRecipe } from '../../models/card';
 import { CardVisualComponent } from "../cards/card-visual/card-visual";
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Resource, ResourceId } from '../../models/resource';
 
 @Component({
@@ -15,7 +15,7 @@ import { Resource, ResourceId } from '../../models/resource';
   templateUrl: './recipes.html',
   styleUrl: './recipes.css',
 })
-export class RecipesComponent implements OnInit {
+export class RecipesComponent implements OnInit, OnDestroy {
   recipeService: RecipeService = inject(RecipeService);
   cardService: CardService = inject(CardService);
   resourceService: ResourceService = inject(ResourceService);
@@ -27,16 +27,23 @@ export class RecipesComponent implements OnInit {
   recipes = CARD_RECIPES;
 
   $searchChange: Subject<String> = new Subject();
+  $searchSub: Subscription | null = null;
+  $resourceSub: Subscription | null = null;
 
   ngOnInit() {
     this.recipeService.loadUnlocks(this.recipeService.unlocked_recipes);
-    this.$searchChange.subscribe(search => this.filterCards(search));
+    this.$searchSub = this.$searchChange.subscribe(search => this.filterCards(search));
 
     this.recipeService.filterRecipes('');
     setTimeout(() => this.rows = this.createRows());
 
-    this.resourceService.$updates.subscribe(res => this.resources = res);
+    this.$resourceSub = this.resourceService.$updates.subscribe(res => this.resources = res);
     this.resourceService.sendUpdates();
+  }
+
+  ngOnDestroy() {
+    this.$searchSub!.unsubscribe();
+    this.$resourceSub!.unsubscribe();
   }
   
   filterCards(search: String) {

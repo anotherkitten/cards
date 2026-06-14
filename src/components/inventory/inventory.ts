@@ -32,12 +32,12 @@ export class Inventory implements OnInit, OnDestroy {
   }
 
   private fillGrid() {
-    const columns = (this.resources.length / 8);
+    const columns = (this.resources.length / 11);
     this.grid = [];
 
     for (let i = 0; i < columns; i++) {
       this.grid.push(
-        this.resources.slice(i * 8, i * 8 + 8)
+        this.resources.slice(i * 11, i * 11 + 11)
       );
     }
   }

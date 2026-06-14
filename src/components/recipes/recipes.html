@@ -1,8 +1,4 @@
 <div class="shelf" [class.show]="show">
-	<div class="tab" (click)="show = !show">
-		<div>Craft</div>
-	</div>
-
 	<div class="filters">
 		<input placeholder="Search for cards..." [(ngModel)]="search" (ngModelChange)="this.$searchChange.next($event)">
 	</div>

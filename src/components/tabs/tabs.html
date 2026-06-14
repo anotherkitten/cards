@@ -1,1 +1,23 @@
-<p>tabs works!</p>
+<div class="shelf" [ngClass]="selected.toLowerCase()">
+	<div class="tabs">
+		@for (tab of tabs; track tab) {
+			<div class="tab" (click)="select(tab)">
+				<div class="tab-label">
+					{{tab}}
+				</div>
+				<div class="right-edge" [class.selected]="selected === tab"></div>
+			</div>
+		}
+	</div>
+	<div class="container">
+		@if (last_selected === 'Craft') {
+			<app-recipes></app-recipes>
+		}
+		@if (last_selected === 'Deck') {
+			<app-deck></app-deck>
+		}
+		@if (last_selected === 'Packs') {
+			<app-packs></app-packs>
+		}
+	</div>
+</div>

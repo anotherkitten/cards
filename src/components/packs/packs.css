@@ -1,0 +1,102 @@
+.packs {
+	width: 240px;
+	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+
+	overflow-y: scroll;
+	scrollbar-width: none;
+	box-sizing: border-box;
+	padding: 12px 0;
+	opacity: 1;
+
+	animation: fade-entrance .55s both;
+}
+
+.pack {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 12px 0;
+	order: 1;
+
+	.name {
+		font-size: 1.1em;
+		font-weight: 500;
+	}
+
+	.subtitle {
+		font-size: .9em;
+		margin-top: 4px;
+	}
+
+	.graphic {
+		margin-top: 8px;
+		height: 240px;
+		width: 180px;
+		
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-sizing: border-box;
+		padding: 24px;
+		border-radius: 10px;
+
+		background-color: #000b;
+		color: white;
+		text-align: center;
+	}
+
+	.buttons {
+		width: 100%;
+		display: flex;
+		justify-content: space-evenly;
+		margin-top: 8px;
+
+		div {
+			font-size: .9em;
+			padding: 4px;
+			border-radius: 4px;
+			opacity: 0.6;
+			user-select: none;
+
+			transition: background-color .25s;
+		}
+
+		div.clickable {
+			opacity: 1;
+			background-color: #0002;
+		}
+
+		div.clickable:hover {
+			cursor: pointer;
+			background-color: #0004;
+		}
+	}
+
+	.costs {
+		margin-top: 8px;
+	}
+
+	.costs .cost-label.cant-afford {
+		color: #622;
+	}
+}
+
+.pack.heavy {
+	order: 2;
+}
+
+@keyframes fade-entrance {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 0;
+	}
+}

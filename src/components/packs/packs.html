@@ -1,1 +1,34 @@
-<p>packs works!</p>
+<div class="packs">
+	@for (info of packInfo; track info.pack.id) {
+		@if (info.pack.id) {
+			<div class="pack" [class.heavy]="!info.available.length">
+				<div class="name"> {{info.pack.name}} </div>
+				<div class="subtitle"> Remaining: {{info.available.length}} </div>
+				<div class="graphic">
+					I DONT HAVE A GRAPHIC FOR THIS YET
+				</div>
+				@if (info.available.length) {
+					<div class="buttons">
+						<div class="clickable" (click)="view(info.pack.id)">View Cards</div>
+						<div [class.clickable]="info.pack.canBuy(resources)" (click)="purchase(info.pack)">Purchase</div>
+					</div>
+					<div class="costs">
+						@for (cost of info.pack.getResourcesInCost(); track cost) {
+							<div class="cost-label" [class.cant-afford]="resourceService.quantity(cost) < info.pack.getCost(cost)">
+								{{packCostString(info.pack, cost)}}
+							</div>
+						}
+					</div>
+				}
+			</div>
+		}
+	}
+</div>
+
+@if (viewing) {
+	<app-pack-view [info]="packInfo[viewing]" (closed)="view(0)"></app-pack-view>
+}
+
+@if (obtained) {
+	<app-pack-view [obtained]="obtained" (closed)="obtain()"></app-pack-view>
+}

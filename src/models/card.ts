@@ -36,37 +36,38 @@ export enum CardId {
 	WATER_WELL = 'water-well', // +5 water
 	TILL_SOIL = 'till-soil', // -1 water, +3 land
 	GROW_WHEAT = 'grow-wheat', // -1 land; grow (1/5): +2 wheat
-	// // additional
-	WATERING_CAN = 'watering-can', // -3 water, +2 growth to all crops in hand 
+	// additional
+	EXPEDITION = 'expedition', // -2 land, +2 wood, +2 stone
 	IRRIGATE = 'irrigate', // -6 water, +12 land
 	FEED_ANIMALS = 'feed-animals', // -3 wheat, +2 manure
 	FERTILIZE = 'fertilize', // -6 manure, permanently speed up growth of all crops in hand
 	BAKE_BREAD = 'bake-bread', // -4 wheat, -2 coal, +6 bread
 	QUICK_SNACK = 'quick-snack', // -1 bread to draw 2 cards
-	EXPEDITION = 'expedition', // -5 land, +3 wood, +3 stone
+	CHARCOAL = 'charcoal', // -6 wood, +3 coal
+	WATERING_CAN = 'watering-can', // -3 water, +2 growth to all crops in hand 
 
 	////simple mining
 	//first buy
-	MINE_COAL = 'mine-coal', // 40%: +2 coal
+	MINE_COAL = 'mine-coal', // 60%: +2 coal
 	SMELT_ORE = 'smelt-ore', // -3 coal, -6 stone, +1 metal
 	FURNACE = 'furnace', // -1 coal, +2 metal to cards in hand 
-	// // additional
-	CHARCOAL = 'charcoal', // -6 wood, +3 coal
+	// additional
 	LANTERN = 'lantern', // other cards have +30% probability to find resources 
-	PROSPECTING = 'prospecting', // 20%: +6 coal, +1 metal
+	PROSPECTING = 'prospecting', // 20%: +8 coal, +1 metal
+	PROCESS_COAL = 'process-coal', // -4 water, +3 to all coal cards in hand
+	WATER_PIPE = 'water-pipe', // +12 water
+	TOOLBOX = 'toolbox', // draw 3 tool cards from your deck
 	METAL_AXE = 'metal-axe', // +6 to all wood cards in hand
 	METAL_PICK = 'metal-pick', // +6 to all stone cards in hand
-	WATER_PIPE = 'water-pipe', // +12 water
 	HOOK = 'hook', // return the last played card to your hand
 
 	// //// improved basics
-	// TOOLBOX = 'toolbox', // draw 3 tool cards from your deck
-	// SAWMILL = 'sawmill', // -5 water, +9 wood
-	// BLAST_MINE = 'blast-mine', // -3 coal, +9 stone
+	// SAWMILL = 'sawmill', // -6 water, +20 wood
+	// BLAST_MINE = 'blast-mine', // -3 coal, +20 stone
+    // PLOW = 'plow', // +6 land to cards in hand
     // SCYTHE = 'scythe', // +4 wheat to cards in hand
-	// COAL_VEIN = 'coal-vein', // 70%: +3 coal
-	// CAMPFIRE = 'campfire', // 
-
+	// TREASURE_TROVE = 'treasure-trove', // 10%: +2 metal, +4 coal, +10 stone, +10 wood
+	// CRUCIBLE = 'crucible', // -4 coal, +4 metal to cards in hand
 }
 
 export enum CardTag {
@@ -257,7 +258,7 @@ export class Card {
 		return this.getNum(id) + this.getNum(`temporary-${id}`);
 	}
 
-	static shuffle(cards: Card[]): Card[] {
+	static shuffle(cards: any[]): any[] {
 		for (let i = cards.length - 1; i > 0; i--) {
 			const j = (Math.random() * (i + 1)) | 0;
 			[cards[i], cards[j]] = [cards[j], cards[i]];

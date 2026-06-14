@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Card, CARD_ID_ORDINALS } from '../../../models/card';
 import { CardVisualComponent } from "../card-visual/card-visual";
 
@@ -8,9 +8,14 @@ import { CardVisualComponent } from "../card-visual/card-visual";
   templateUrl: './deck-view.html',
   styleUrl: './deck-view.css',
 })
-export class DeckViewComponent {
+export class DeckViewComponent implements OnInit {
   @Input() cards: Card[] = []
   @Output() close: EventEmitter<void> = new EventEmitter();
+  rows: Card[][] = [];
+
+  ngOnInit() {
+    this.rows = this.sliceIntoRows();
+  }
 
   sliceIntoRows() {
     const sortedCards = [...this.cards].sort((a, b) => CARD_ID_ORDINALS[a.id] - CARD_ID_ORDINALS[b.id]);

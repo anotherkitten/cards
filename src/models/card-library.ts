@@ -147,7 +147,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			CardColor.YELLOW
 		),
 		[ CardTag.WHEAT_PROVIDER, CardTag.GROW ],
-		{ wheat: '2', grow: '3' },
+		{ wheat: '2', grow: '4' },
 		(c: Card, x: CardExecutionService) => {
 			x.grow(c, () => {
 				x.addResourceByData(ResourceId.WHEAT, c);
@@ -250,14 +250,14 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 	[CardId.EXPEDITION]: new CardTemplate(CardId.EXPEDITION,
 		new CardInfo(
 			'Expedition',
-			'Spend 3 land to gain {!Rwood} wood and {!Rstone} stone',
+			'Spend 2 land to gain {!Rwood} wood and {!Rstone} stone',
 			'',
 			CardColor.GREEN
 		),
 		[ CardTag.STONE_PROVIDER, CardTag.WOOD_PROVIDER ],
-		{ wood: '2', stone: '2' },
+		{ wood: '4', stone: '4' },
 		(c: Card, x: CardExecutionService) => {
-			x.spend(c, [ResourceId.LAND, 3], () => {
+			x.spend(c, [ResourceId.LAND, 2], () => {
 				x.addResourceByData(ResourceId.WOOD, c);
 				x.addResourceByData(ResourceId.STONE, c);
 			})
@@ -271,7 +271,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			CardColor.BLACK
 		),
 		[ CardTag.COAL_PROVIDER, CardTag.PROBABILITY ],
-		{ probability: '40', coal: '2' },
+		{ probability: '60', coal: '2' },
 		(c: Card, x: CardExecutionService) => {
 			x.probability(c, () => {
 				x.addResourceByData(ResourceId.COAL, c);
@@ -348,7 +348,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			CardColor.BLACK
 		),
 		[ CardTag.COAL_PROVIDER, CardTag.METAL_PROVIDER, CardTag.PROBABILITY ],
-		{ probability: '20', coal: '6', metal: '1' },
+		{ probability: '20', coal: '8', metal: '1' },
 		(c: Card, x: CardExecutionService) => {
 			x.probability(c, () => {
 				x.addResourceByData(ResourceId.COAL, c);
@@ -417,6 +417,42 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 				x.cards().moveToHand(x.cards().last_played!);
 			}
 		},	
+	),
+	[CardId.TOOLBOX]: new CardTemplate(CardId.TOOLBOX,
+		new CardInfo(
+			'Toolbox',
+			'Draw three Tools from your deck.',
+			'',
+			CardColor.WHITE
+		),
+		[],
+		{},
+		(c: Card, x: CardExecutionService) => {
+			x.cards().drawFromDeck(x.cards().getCardsFrom(
+				CardLocation.DRAW,
+				3,
+				Card.tagFilter(CardTag.TOOL)
+			))
+		},
+	),
+	[CardId.PROCESS_COAL]: new CardTemplate(CardId.PROCESS_COAL,
+		new CardInfo(
+			'Process Coal',
+			'Spend 4 water to increase coal gain from other cards in hand by 3.',
+			'',
+			CardColor.BLACK
+		),
+		[ ],
+		{ },
+		(c: Card, x: CardExecutionService) => {
+			x.spend(c, [ResourceId.WATER, 4], () => {
+				x.cards().getCardsFrom(
+					CardLocation.HAND, Infinity, Card.tagFilter(CardTag.COAL_PROVIDER)
+				).forEach(c => {
+					c.set('temporary-coal', c.getNum('temporary-coal') + 3);
+				})
+			})
+		},
 	),
 	// [CardId.REPLACEME]: new CardTemplate(CardId.REPLACEME,
 	// 	new CardInfo(
@@ -531,5 +567,12 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 	}),
 	[CardId.HOOK]: new CardRecipe(CardId.HOOK, {
 		'metal': 20
+	}),
+	[CardId.TOOLBOX]: new CardRecipe(CardId.TOOLBOX, {
+		'metal': 35
+	}),
+	[CardId.PROCESS_COAL]: new CardRecipe(CardId.PROCESS_COAL, {
+		'water': 30,
+		'metal': 5
 	}),
 }

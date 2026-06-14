@@ -50,7 +50,7 @@ export class CardsComponent implements OnInit{
 
   updateTimer() {
     this.autoplayCounter++;
-    if (this.autoplayCounter == 3) this.autoplay();
+    if (this.autoplayCounter == 20) this.autoplay();
 
     if (!this.canvasContext) {
       if (!this.redrawCanvas) return;

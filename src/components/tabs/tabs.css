@@ -1,0 +1,88 @@
+.shelf {
+	position: fixed;
+	top: 0;
+	right: -1000px;
+	width: 1000px;
+	height: 100vh;
+
+	box-sizing: border-box;
+	background-color: white;
+	border: 2px var(--color-dark-white) solid;
+
+	transition: right 0.25s ease-out;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tabs {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.shelf.craft {
+	right: -640px;
+}
+
+.shelf.deck {
+	right: -200px;
+}
+
+.shelf.packs {
+	right: -760px;
+}
+
+.tab {
+	user-select: none;
+	position: relative;
+	margin-top: 8px;
+	left: -42px;
+	width: 42px;
+	height: 80px;
+	box-sizing: border-box;
+	background-color: white;
+	border: 2px var(--color-dark-white) solid;
+	border-right: none;
+	border-radius: 4px;
+	cursor: pointer;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	.tab-label {
+		color: var(--color-font-white);
+		font-weight: 500;
+		transform: rotate(-90deg);
+	}
+
+	.right-edge {
+		position: absolute;
+		left: 34px;
+		top: -2px;
+		width: 5px;
+		height: 77px;
+		background-color: white;
+		border: 2px var(--color-dark-white) solid;
+		border-left: none;
+	}
+
+	.right-edge.selected {
+		width: 6px;
+		border-right: none;
+	}
+}
+
+.container {
+	width: 1000px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
