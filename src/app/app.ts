@@ -24,6 +24,6 @@ export class App implements OnInit{
     this.cardExecService.init(this.cardService);
     this.saveService.load();
 
-    interval(60e3).subscribe(() => this.saveService.save());
+    interval(30e3).subscribe(() => this.saveService.save());
   }
 }

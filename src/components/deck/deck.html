@@ -17,8 +17,14 @@
 							@for (card of row; track card.uuid) {
 								<div class="card">
 									<app-card-visual [card]="card"></app-card-visual>
-									<div class="card-cover-lookup" (click)="drilldown(card)">
-										<div class="label">View Copies</div>
+									<div class="card-cover-lookup">
+										<div class="label"> Owned: {{amountOwned(card.id)}} </div>
+										<div class="label"> In Deck: {{amountInDeck(card.id)}} </div>
+										<div class="lookup-buttons">
+											<fa-icon [icon]="iconClear" [class.gone]="!amountInDeck(card.id)" (click)="clearCardsFromDeck(card.id)"></fa-icon>
+											<fa-icon [icon]="iconView" (click)="drilldown(card)"></fa-icon>
+											<fa-icon [icon]="iconAdd" [class.gone]="amountInDeck(card.id) >= amountOwned(card.id)" (click)="addCardOfId(card.id)"></fa-icon>
+										</div>
 									</div>
 								</div>
 							}
@@ -64,9 +70,13 @@
 	<div class="deck section">
 		<div class="header">
 			<div class="title">
-				Current Deck
+				Current Deck ({{deckCards.length}})
 			</div>
-			<div></div>
+			<div class="buttons">
+				<fa-icon [icon]="iconClear" (click)="clearDeck()"></fa-icon>
+				<fa-icon [icon]="iconUndo" (click)="clearChanges()" [class.invalid]="!hasDeckChanged"></fa-icon>
+				<fa-icon [icon]="iconSave" (click)="saveDeckCards()" [class.invalid]="!hasDeckChanged || !validDeckSize()"></fa-icon>
+			</div>
 		</div>
 		<div class="grid">
 			@if (deckRows.length) {
@@ -76,7 +86,6 @@
 							<div class="card">
 								<app-card-visual [card]="card"></app-card-visual>
 								<div class="card-cover-deck"
-									[class.can-remove]="cardService.current_deck.length >= 21" 
 									(click)="removeCardFromDeck(card)">
 									<div class="label">Remove?</div>
 								</div>

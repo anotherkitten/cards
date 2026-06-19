@@ -15,6 +15,21 @@
 	align-items: center;
 	justify-content: space-between;
 
+	.buttons {
+		display: flex;
+		align-items: center;
+
+		fa-icon {
+			margin-left: 2px;
+			cursor: pointer;
+		}
+
+		fa-icon.invalid {
+			opacity: 0.5;
+			cursor: default;
+		}
+	}
+
 	.back {
 		cursor: pointer;
 		position: relative;
@@ -117,6 +132,7 @@
 			background-color: #0008;
 
 			display: flex;
+			flex-direction: column;
 			justify-content: center;
 			align-items: center;
 
@@ -130,7 +146,6 @@
 		}
 
 		.card-cover-lookup:hover {
-			cursor: pointer;
 			transition: opacity .25s;
 			opacity: 1;
 
@@ -170,7 +185,7 @@
 
 		.card-cover-drilldown.not-in-deck {
 			opacity: 0;
-			background-color: #0008;
+			background-color: #0005;
 
 			.label.added {
 				display: none;
@@ -179,6 +194,7 @@
 
 		.card-cover-drilldown.can-add:hover {
 			transition: opacity .25s;
+			background-color: #0008;
 			opacity: 1;
 			cursor: pointer;
 
@@ -198,7 +214,7 @@
 
 			transition: opacity .25s;
 			opacity: 0;
-			background-color: #0003;
+			background-color: #0008;
 
 			display: flex;
 			justify-content: center;
@@ -213,7 +229,7 @@
 			}
 		}
 
-		.card-cover-deck.can-remove:hover {
+		.card-cover-deck:hover {
 			cursor: pointer;
 			opacity: 1;
 
@@ -221,6 +237,24 @@
 				opacity: 1;
 			}
 		}
+	}
+}
+
+.lookup-buttons {
+	color: white;
+	margin-top: 8px;
+
+	fa-icon {
+		cursor: pointer;
+	}
+
+	fa-icon.gone {
+		cursor: default;
+		opacity: 0;
+	}
+
+	fa-icon + fa-icon {
+		margin-left: 4px;
 	}
 }
 

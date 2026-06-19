@@ -15,6 +15,7 @@
 	margin-top: 24px;
 
 	input {
+		width: 216px;
 		background-color: #0001;
 		border: none;
 		font-size: 1em;
@@ -26,6 +27,22 @@
 		background-color: #0002;
 		outline: none;
 	}
+
+	select {
+		width: 64px;
+		text-align: center;
+		background-color: #0001;
+		border: none;
+		font-size: 1em;
+		border-radius: 4px;
+		padding: 4px;
+		margin-left: 12px;
+	}
+	
+	select:focus {
+		background-color: #0002;
+		outline: none;
+	}
 }
 
 .grid {
@@ -33,13 +50,17 @@
 
 	height: calc(100vh - 80px);
 	width: 312px;
-	margin: 24px;
-	margin-bottom: 10px;
-	padding: 10px;
+	margin: 12px 24px 24px;
 	border-radius: 10px;
 
 	overflow-y: scroll;
 	scrollbar-width: none;
+}
+
+.pack-label {
+	opacity: .5;
+	text-align: center;
+	margin-top: 12px;
 }
 
 .row {
@@ -47,6 +68,10 @@
 	align-items: flex-start;
 	margin-top: 14px;
 	margin-bottom: 24px;
+
+	+ .pack-label {
+		margin-top: 32px;
+	}
 
 	.card {
 		display: flex;

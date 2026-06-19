@@ -1,28 +1,41 @@
 <div class="shelf" [class.show]="show">
 	<div class="filters">
 		<input placeholder="Search for cards..." [(ngModel)]="search" (ngModelChange)="this.$searchChange.next($event)">
+		<select [ngModel]="packFilter" (ngModelChange)="setPackFilter($event)">
+			<option value='Any' selected>--</option>
+			@for (pack of packs; track (pack)) {
+				<option [value]="pack">
+					{{pack.replaceAll(/[a-z ]+/g, "")}}
+				</option>
+			}
+		</select>
 	</div>
 
 	<div class="grid">
 		@if (rows.length) {
-			@for (row of rows; track (row[0].uuid.concat((row[1] ? row[1].uuid : '').toString()))) {
-				<div class="row">
-					@for (card of row; track card.uuid) {
-						<div class="card">
-							<app-card-visual [card]="card"></app-card-visual>
-							<div class="card-cover" [class.affordable]="affordable(card)" (click)="craft(card)">
-								<div class="label">Craft?</div>
-								<div class="label owned">(Owned: {{numberOwned(card)}})</div>
-							</div>
+			@for (rowAndPack of rows; track (rowAndPack[1])) {
+				<div class="pack-label"> --- {{rowAndPack[1]}} --- </div>
+				@if (rowAndPack[0].length) {
+					@for (row of rowAndPack[0]; track (row[0].uuid.concat((row[1] ? row[1].uuid : '').toString()))) {
+						<div class="row">
+							@for (card of row; track card.uuid) {
+								<div class="card">
+									<app-card-visual [card]="card"></app-card-visual>
+									<div class="card-cover" [class.affordable]="affordable(card)" (click)="craft(card)">
+										<div class="label">Craft?</div>
+										<div class="label owned">(Owned: {{numberOwned(card)}})</div>
+									</div>
 
-							@for (cost of recipeComponents(recipes[card.id]); track cost) {
-								<div class="cost-label" [class.unaffordable] = "!costAffordable(card, cost)">
-									{{recipeCostString(recipes[card.id], cost)}}
+									@for (cost of recipeComponents(recipes[card.id]); track cost) {
+										<div class="cost-label" [class.unaffordable] = "!costAffordable(card, cost)">
+											{{recipeCostString(recipes[card.id], cost)}}
+										</div>
+									}
 								</div>
 							}
 						</div>
 					}
-				</div>
+				}
 			}
 		}
 	</div>
