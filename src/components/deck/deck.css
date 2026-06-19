@@ -58,6 +58,16 @@
 	.title {
 		padding: 2px 0;
 		font-weight: 500;
+
+		.title-small {
+			position: relative;
+			top: 1px;
+			left: 4px;
+
+			opacity: 0.5;
+			color: #600;
+			font-size: 0.8em;
+		}
 	}
 }
 

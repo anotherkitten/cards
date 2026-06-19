@@ -71,6 +71,9 @@
 		<div class="header">
 			<div class="title">
 				Current Deck ({{deckCards.length}})
+				<span class="title-small">
+					{{ deckCards.length < 20 ? `Need ${20 - deckCards.length} more!` : deckCards.length > 40 ? `Need ${deckCards.length - 40} less!` : '' }}
+				</span>
 			</div>
 			<div class="buttons">
 				<fa-icon [icon]="iconClear" (click)="clearDeck()"></fa-icon>
