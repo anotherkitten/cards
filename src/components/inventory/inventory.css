@@ -1,5 +1,6 @@
 div.grid {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 
@@ -7,20 +8,21 @@ div.grid {
 	height: 400px;
 	overflow-x: scroll;
 
-    scrollbar-width: none;  /* Firefox, Safari 18.2+, Chromium 121+ */
+    scrollbar-width: none;  
 
-	.column {
+	.limit {
+		opacity: .5;
+		user-select: none;
+	}
+
+	.row {
 		display: flex;
-		flex-direction: column;
 		justify-content: center;
 		align-items: flex-start;
 
-		width: 150px;
-		height: auto;
-
-		+ .column {
-			margin-left: 10px 
-		}
+		width: 800px;
+		height: 40px;
+		margin-top: 10px;
 
 		.item {
 			display: flex;
@@ -36,7 +38,7 @@ div.grid {
 			border-style: solid;
 
 			+ .item {
-				margin-top: 10px;
+				margin-left: 10px;
 			}
 			
 			.label {
@@ -46,55 +48,55 @@ div.grid {
 	}
 }
 
-div.grid .column .item.red {
+div.grid .row .item.red {
 	color: var(--color-font-red);
 	border-color: var(--color-dark-red);
 	background-color: var(--color-light-red);
 }
 
-div.grid .column .item.orange {
+div.grid .row .item.orange {
 	color: var(--color-font-orange);
 	border-color: var(--color-dark-orange);
 	background-color: var(--color-light-orange);
 }
 
-div.grid .column .item.yellow {
+div.grid .row .item.yellow {
 	color: var(--color-font-yellow);
 	border-color: var(--color-dark-yellow);
 	background-color: var(--color-light-yellow);
 }
 
-div.grid .column .item.green {
+div.grid .row .item.green {
 	color: var(--color-font-green);
 	border-color: var(--color-dark-green);
 	background-color: var(--color-light-green);
 }
 
-div.grid .column .item.blue {
+div.grid .row .item.blue {
 	color: var(--color-font-blue);
 	border-color: var(--color-dark-blue);
 	background-color: var(--color-light-blue);
 }
 
-div.grid .column .item.purple {
+div.grid .row .item.purple {
 	color: var(--color-font-purple);
 	border-color: var(--color-dark-purple);
 	background-color: var(--color-light-purple);
 }
 
-div.grid .column .item.brown {
+div.grid .row .item.brown {
 	color: var(--color-font-brown);
 	border-color: var(--color-dark-brown);
 	background-color: var(--color-light-brown);
 }
 
-div.grid .column .item.black {
+div.grid .row .item.black {
 	color: var(--color-font-black);
 	border-color: var(--color-dark-black);
 	background-color: var(--color-light-black);
 }
 
-div.grid .column .item.white {
+div.grid .row .item.white {
 	color: var(--color-font-white);
 	border-color: var(--color-dark-white);
 	background-color: var(--color-light-white);

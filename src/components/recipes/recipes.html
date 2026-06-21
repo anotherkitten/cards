@@ -26,9 +26,9 @@
 										<div class="label owned">(Owned: {{numberOwned(card)}})</div>
 									</div>
 
-									@for (cost of recipeComponents(recipes[card.id]); track cost) {
-										<div class="cost-label" [class.unaffordable] = "!costAffordable(card, cost)">
-											{{recipeCostString(recipes[card.id], cost)}}
+									@for (resource of recipes[card.id].cost.getResourcesInCost(); track resource) {
+										<div class="cost-label" [class.unaffordable] = "!costAffordable(card, resource)">
+											{{recipes[card.id].cost.recipeCostString(resource)}}
 										</div>
 									}
 								</div>

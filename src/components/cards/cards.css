@@ -125,3 +125,6 @@
 	top: 84px;
 }
 
+.dont-show {
+	display: none;
+}

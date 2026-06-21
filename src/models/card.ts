@@ -1,5 +1,5 @@
 import { CardExecutionService } from '../services/card-execution/card-execution';
-import { Resource, ResourceId } from './resource';
+import { Resource, ResourceCosts, ResourceId } from './resource';
 
 type CardTags = CardTag[];
 type CardData = {[key: string]: String};
@@ -149,23 +149,11 @@ export class SavedCard {
 
 export class CardRecipe {
 	id: CardId;
-	cost: CardRecipeCosts;
+	cost: ResourceCosts;
 
-	constructor(id: CardId, cost: CardRecipeCosts) {
+	constructor(id: CardId, cost: ResourceCosts) {
 		this.id = id;
 		this.cost = cost;
-	}
-
-	getResourcesInCost(): ResourceId[] {
-		return Object.values(ResourceId).filter(res => Object.keys(this.cost).includes(res)) as ResourceId[];
-	}
-
-	getCost(id: ResourceId | String) {
-		return this.cost[id.toString()] || 0;
-	}
-
-	canBuy(resources: Resource[]) {
-		return resources.every(res => res.quantity >= this.getCost(res.id));
 	}
 }
 

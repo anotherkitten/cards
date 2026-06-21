@@ -10,12 +10,12 @@
 				@if (info.available.length) {
 					<div class="buttons">
 						<div class="clickable" (click)="view(info.pack.id)">View Cards</div>
-						<div [class.clickable]="info.pack.canBuy(resources)" (click)="purchase(info.pack)">Purchase</div>
+						<div [class.clickable]="info.pack.cost.canBuy(resources)" (click)="purchase(info.pack)">Purchase</div>
 					</div>
 					<div class="costs">
-						@for (cost of info.pack.getResourcesInCost(); track cost) {
-							<div class="cost-label" [class.cant-afford]="resourceService.quantity(cost) < info.pack.getCost(cost)">
-								{{packCostString(info.pack, cost)}}
+						@for (resource of info.pack.cost.getResourcesInCost(); track resource) {
+							<div class="cost-label" [class.cant-afford]="resourceService.quantity(resource) < info.pack.cost.getCost(resource)">
+								{{info.pack.cost.recipeCostString(resource)}}
 							</div>
 						}
 					</div>

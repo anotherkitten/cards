@@ -1,0 +1,117 @@
+.shelf {
+	width: 480px;
+	height: 100vh;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	opacity: 1;
+	animation: fade-entrance .55s both;
+}
+
+.grid {
+	background-color: #0001;
+
+	height: calc(100vh - 48px);
+	width: 432px;
+	margin: 24px;
+	border-radius: 10px;
+
+	overflow-y: scroll;
+	scrollbar-width: none;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.structure-card {
+	box-sizing: border-box;
+	width: 408px;
+	padding: 12px;
+	background-color: white;
+	margin-top: 12px;
+	border-radius: 10px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+
+	.title {
+		text-align: center;
+		font-weight: 500;
+		min-width: 360px;
+		padding-bottom: 8px;
+		border-bottom: 2px #0002 solid;
+	}
+
+	.upgrade-button {
+		order: 99;
+		opacity: .4;
+		background-color: #0002;
+		transition: background-color .25s, opacity .25s;
+		user-select: none;
+		padding: 4px;
+		border-radius: 4px;
+		margin-top: 8px;
+		padding: 4px 12px;	
+		text-align: center;
+	}
+
+	.upgrade-button.affordable {
+		opacity: 1;
+		cursor: pointer;
+	}
+
+	.upgrade-button.affordable:hover {
+		background-color: #0004;
+	}
+
+	.desc {
+		text-align: center;
+		min-width: 360px;
+		margin-top: 8px;
+		padding-bottom: 8px;
+		border-bottom: 2px #0002 solid;
+	}
+
+	.desc.upgraded {
+		color: #060;
+		display: none;
+	}
+
+	.upgrade-button:hover ~ .desc {
+		display: none;
+	}
+
+	.upgrade-button:hover ~ .desc.upgraded {
+		margin-top: 8px;
+		color: #060;
+		display: block;
+	}
+
+	.costs {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		margin-top: 8px;
+
+		.cost.unaffordable {
+			color: #622;
+		}
+	}
+}
+
+@keyframes fade-entrance {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 0;
+	}
+}

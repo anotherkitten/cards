@@ -5,6 +5,8 @@ import { Card } from '../../models/card';
 import { CardComponent } from './card/card';
 import { interval, Subscription } from 'rxjs';
 import { DeckViewComponent } from "./deck-view/deck-view";
+import { StructureService } from '../../services/structure/structure';
+import { StructureId } from '../../models/structure';
 
 @Component({
   selector: 'app-cards',
@@ -13,9 +15,10 @@ import { DeckViewComponent } from "./deck-view/deck-view";
   styleUrl: './cards.css',
 })
 export class CardsComponent implements OnInit{
-  redrawTime: number = 5e3;
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   cardService: CardService = inject(CardService);
+  structs: StructureService = inject(StructureService);
+  redrawTime: number = 5e3;
   lastRedraw: number = Date.now();
   nextRedraw: number = Date.now() + this.redrawTime;
   $updateTimer: Subscription = new Subscription();
@@ -50,7 +53,7 @@ export class CardsComponent implements OnInit{
 
   updateTimer() {
     this.autoplayCounter++;
-    if (this.autoplayCounter == 20) this.autoplay();
+    if (this.autoplayCounter >= [20, 16, 12, 8][this.structs.level(StructureId.WORKSHOP)]) this.autoplay();
 
     if (!this.canvasContext) {
       if (!this.redrawCanvas) return;
@@ -82,6 +85,7 @@ export class CardsComponent implements OnInit{
   drawNewHand() {
     if (Date.now() < this.nextRedraw) return;
 
+    this.redrawTime = [5e3, 4e3, 3.2e3, 2.5e3][this.structs.level(StructureId.WATER_WHEEL)];
     this.lastRedraw = Date.now();
     this.nextRedraw = Date.now() + this.redrawTime;
 
@@ -96,5 +100,9 @@ export class CardsComponent implements OnInit{
     if ((deck === 'draw' && !this.cardService.draw.length) || (deck === 'discard' && !this.cardService.discard.length)) return;
 
     this.viewingDeck = deck;
+  }
+
+  showAutoplay() {
+    return this.structs.level(StructureId.WORKSHOP);
   }
 }

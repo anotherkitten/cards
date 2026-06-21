@@ -1,3 +1,5 @@
+import { ɵAcxChangeDetectionStrategy } from "@angular/core";
+
 export enum ResourceId {
 	WOOD = 'wood',
 	STONE = 'stone',
@@ -23,6 +25,10 @@ export enum ResourceColor {
 	BLACK = 'black',
 }
 
+type ResourceLibrary<T extends string | symbol | number, U> = {
+    [K in T]: U;
+};
+
 export class SavedResource {
 	id: ResourceId;
 	quantity: number;
@@ -32,6 +38,36 @@ export class SavedResource {
 		this.id = id;
 		this.quantity = quantity;
 		this.unlocked = unlocked;
+	}
+}
+
+export class ResourceCosts {
+	dict: ResourceLibrary<ResourceId, number> = (Object.values(ResourceId) as ResourceId[]).map(id => { return {[id]: 0} }).reduce((acc, r) => Object.assign(acc, r)) as ResourceLibrary<ResourceId, number>;
+	resources: ResourceId[] = [];
+
+	constructor(costs: {[id: string]: number}) {
+		Object.assign(this.dict, costs);
+		this.resources = this.getResourcesInCost();
+	}
+
+	getResourcesInCost(): ResourceId[] {
+		return Object.entries(this.dict).filter(pair => pair[1]).map(pair => pair[0]) as ResourceId[];
+	}
+
+	getCost(id: ResourceId) {
+		return this.dict[id];
+	}
+
+	enough(resource: Resource) {
+		return resource.quantity >= this.getCost(resource.id);
+	}
+
+	canBuy(resources: Resource[]) {
+		return resources.every(res => this.enough(res));
+	}
+
+	recipeCostString(id: ResourceId) {
+		return `${this.getCost(id)} ${RESOURCE_LIB[id].name}`
 	}
 }
 

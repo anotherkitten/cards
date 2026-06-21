@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Card, CardId } from '../../models/card';
 import { CARD_TEMPLATES } from '../../models/card-library';
 import { ResourceService } from '../../services/resource/resource';
-import { Resource } from '../../models/resource';
+import { Resource, ResourceId } from '../../models/resource';
 import { PackView } from './pack-view/pack-view';
 
 export class PackInfo {
@@ -54,13 +54,10 @@ export class PacksComponent implements OnInit, OnDestroy {
   }
 
   purchase(pack: Pack) {
-    if (pack.canBuy(this.resources)) {
+    if (pack.cost.canBuy(this.resources)) {
       const drawn = pack.draw(this.recipes.unlocked_recipes);
 
-      for (let cost of pack.getResourcesInCost()) {
-        this.resourceService.spend(cost, pack.getCost(cost));
-      }
-
+      this.resourceService.spendCosts(pack.cost);
       this.recipes.unlock(drawn);
       this.obtain(drawn.map(id => CARD_TEMPLATES[id].toCard()));
     }
@@ -72,9 +69,5 @@ export class PacksComponent implements OnInit, OnDestroy {
 
   obtain(obtained?: Card[]) {
     this.obtained = obtained || null;
-  }
-
-  packCostString(p: Pack, resource: String) {
-    return `${p.getCost(resource)} ${resource.charAt(0).toLocaleUpperCase() + resource.slice(1)}`
   }
 }

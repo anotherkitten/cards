@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Resource, RESOURCE_LIB, ResourceId, SavedResource } from '../../models/resource';
+import { inject, Injectable } from '@angular/core';
+import { Resource, RESOURCE_LIB, ResourceCosts, ResourceId, SavedResource } from '../../models/resource';
 import { Subject } from 'rxjs';
+import { StructureService } from '../structure/structure';
+import { StructureId } from '../../models/structure';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +10,7 @@ import { Subject } from 'rxjs';
 export class ResourceService {
   private resources = RESOURCE_LIB;
   unlocked: ResourceId[] = [ResourceId.WOOD, ResourceId.STONE];
+  structs: StructureService = inject(StructureService);
 
   $updates: Subject<Resource[]> = new Subject<Resource[]>();
   $unlocked: Subject<Resource[]> = new Subject<Resource[]>();
@@ -60,11 +63,17 @@ export class ResourceService {
   add(id: ResourceId, amount: number): number {
     if (amount < 0) throw `Adding negative amount (${amount}) of resource: ${id}`;
     let r = this.safeGet(id);
-    r.quantity += amount;
+    r.quantity = Math.min(r.quantity + amount, this.resourceCap());
 
     if (!this.unlocked.includes(id)) this.unlocked.push(id);
     this.sendUpdates();
     return r.quantity;
+  }
+
+  spendCosts(costs: ResourceCosts) {
+    if (costs.canBuy(this.getResources())) {
+      costs.getResourcesInCost().forEach(id => this.spend(id, costs.getCost(id)));
+    }
   }
 
   spend(id: ResourceId, amount: number): number {
@@ -74,5 +83,9 @@ export class ResourceService {
 
     this.sendUpdates();
     return r.quantity;
+  }
+
+  resourceCap() {
+    return [100, 200, 500, 1000, 2500, 10000][this.structs.level(StructureId.SILO)];
   }
 }

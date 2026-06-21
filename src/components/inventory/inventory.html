@@ -1,7 +1,10 @@
 <div class="grid">
-	@for (col of grid; track $index) {
-	<div class="column">
-		@for (item of col; track $index) {
+	<div class="limit">
+		Resource Limit: {{resourceService.resourceCap()}} 
+	</div>
+	@for (row of grid; track $index) {
+	<div class="row">
+		@for (item of row; track $index) {
 		<div class="item" [ngClass]="item.color">
 			<div class="label">
 				{{item.quantity}} {{item.name}}

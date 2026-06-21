@@ -1,0 +1,26 @@
+<div class="shelf">
+	<div class="grid">
+		@for (structure of getStructures(); track structure.id) {
+			<div class="structure-card">
+				<div class="title">{{structure.name}}</div>
+				@if (!structure.maxLevel()) {
+					<div class="upgrade-button" [class.affordable]="structure.getCost().canBuy(resources)" (click)="purchase(structure)"> {{ structure.level ? 'Upgrade' : 'Build' }} </div>
+				}
+				<div class="desc">{{structure.desc(structure.level)}}</div>
+				<div class="desc upgraded">{{structure.desc(structure.level + 1)}}</div>
+				@if (hasSpecialPanel(structure) && structure.level) {
+					<div class="special-panel"> </div>
+				}
+				@if (!structure.maxLevel()) {
+					<div class="costs">
+						@for (resource of structure.getCost().getResourcesInCost(); track resource) {
+							<div class="cost" [class.unaffordable]="!canAfford(structure, resource)">
+								{{structure.getCost().recipeCostString(resource)}}
+							</div>
+						}
+					</div>
+				}
+			</div>
+		}
+	</div>
+</div>

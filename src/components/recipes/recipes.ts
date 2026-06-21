@@ -84,21 +84,16 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   affordable(c: Card) {
     const recipe = this.recipes[c.id];
-    return recipe.canBuy(this.resources);
+    return recipe.cost.canBuy(this.resources);
   }
 
   costAffordable(card: Card, cost: String) {
-    return this.resourceService.quantity(cost) >= this.recipes[card.id].getCost(cost);
+    return this.resourceService.quantity(cost) >= this.recipes[card.id].cost.getCost(cost as ResourceId);
   }
 
   craft(c: Card) {
     if (this.affordable(c)) {
-      const recipe = this.recipes[c.id];
-
-      for (let cost of recipe.getResourcesInCost()) {
-        this.resourceService.spend(cost, recipe.getCost(cost));
-      }
-
+      this.resourceService.spendCosts(this.recipes[c.id].cost);
       this.cardService.craftCard(c.id);
     }
   }
@@ -108,10 +103,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
   }
 
   recipeComponents(r: CardRecipe) {
-    return Object.keys(r.cost);
-  }
-
-  recipeCostString(r: CardRecipe, resource: String) {
-    return `${r.getCost(resource)} ${resource.charAt(0).toLocaleUpperCase() + resource.slice(1)}`
+    return r.cost.getResourcesInCost();
   }
 }

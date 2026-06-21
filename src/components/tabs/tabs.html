@@ -1,11 +1,10 @@
 <div class="shelf" [ngClass]="selected.toLowerCase()">
 	<div class="tabs">
 		@for (tab of tabs; track tab) {
-			<div class="tab" (click)="select(tab)">
+			<div class="tab" (click)="select(tab)" [class.selected]="selected === tab" [class.larger]="'Structures' === tab">
 				<div class="tab-label">
 					{{tab}}
 				</div>
-				<div class="right-edge" [class.selected]="selected === tab"></div>
 			</div>
 		}
 	</div>
@@ -18,6 +17,9 @@
 		}
 		@if (last_selected === 'Packs') {
 			<app-packs></app-packs>
+		}
+		@if (last_selected === 'Structures') {
+			<app-structures></app-structures>
 		}
 	</div>
 </div>

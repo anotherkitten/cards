@@ -1,5 +1,5 @@
 import { CardColor, CardId, CardInfo, CardTemplate, CardTag, Card, CardRecipe, CardLocation } from './card';
-import { ResourceId } from './resource';
+import { ResourceCosts, ResourceId } from './resource';
 import { CardExecutionService } from '../services/card-execution/card-execution';
 
 type CardLibrary<T extends string | symbol | number, U> = {
@@ -470,109 +470,109 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 }
 
 export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
-	[CardId.RELAX]: new CardRecipe(CardId.RELAX, {}),
-	[CardId.CHOP_WOOD]: new CardRecipe(CardId.CHOP_WOOD, {}),
-	[CardId.MINE_STONE]: new CardRecipe(CardId.MINE_STONE, {}),
-	[CardId.STONE_AXE]: new CardRecipe(CardId.STONE_AXE, {
-		'wood': 4,
-		'stone': 6
-	}),
-	[CardId.STONE_PICK]: new CardRecipe(CardId.STONE_PICK, {
-		'wood': 6,
-		'stone': 4
-	}),
-	[CardId.TOOL_CART]: new CardRecipe(CardId.TOOL_CART, {
-		'wood': 8,
-		'stone': 8
-	}),
-	[CardId.LUMBERYARD]: new CardRecipe(CardId.LUMBERYARD, {
-		'wood': 12,
-		'stone': 16
-	}),
-	[CardId.QUARRY]: new CardRecipe(CardId.QUARRY, {
-		'wood': 16,
-		'stone': 12
-	}),
-	[CardId.WATER_WELL]: new CardRecipe(CardId.WATER_WELL, {
-		'stone': 25
-	}),
-	[CardId.TILL_SOIL]: new CardRecipe(CardId.TILL_SOIL, {
-		'wood': 10,
-		'water': 15
-	}),
-	[CardId.GROW_WHEAT]: new CardRecipe(CardId.GROW_WHEAT, {
-		'water': 10,
-		'land': 15
-	}),
-	[CardId.WATERING_CAN]: new CardRecipe(CardId.WATERING_CAN, {
-		'water': 12,
-		'metal': 8
-	}),
-	[CardId.IRRIGATE]: new CardRecipe(CardId.IRRIGATE, {
-		'water': 20,
-		'land': 10
-	}),
-	[CardId.FEED_ANIMALS]: new CardRecipe(CardId.FEED_ANIMALS, {
-		'land': 10,
-		'wheat': 5
-	}),
-	[CardId.FERTILIZE]: new CardRecipe(CardId.FERTILIZE, {
-		'manure': 10
-	}),
-	[CardId.BAKE_BREAD]: new CardRecipe(CardId.BAKE_BREAD, {
-		'water': 10,
-		'wheat': 10
-	}),
-	[CardId.QUICK_SNACK]: new CardRecipe(CardId.QUICK_SNACK, {
-		'bread': 5
-	}),
-	[CardId.EXPEDITION]: new CardRecipe(CardId.EXPEDITION, {
-		'land': 15,
-		'water': 40
-	}),
-	[CardId.MINE_COAL]: new CardRecipe(CardId.MINE_COAL, {
-		'wood': 25,
-		'stone': 10
-	}),
-	[CardId.SMELT_ORE]: new CardRecipe(CardId.SMELT_ORE, {
-		'stone': 20,
-		'coal': 4
-	}),
-	[CardId.FURNACE]: new CardRecipe(CardId.FURNACE, {
-		'stone': 40,
-		'coal': 8
-	}),
-	[CardId.CHARCOAL]: new CardRecipe(CardId.CHARCOAL, {
-		'wood': 25,
-		'coal': 5
-	}),
-	[CardId.LANTERN]: new CardRecipe(CardId.LANTERN, {
-		'coal': 10,
-		'metal': 4
-	}),
-	[CardId.PROSPECTING]: new CardRecipe(CardId.PROSPECTING, {
-		'land': 30
-	}),
-	[CardId.METAL_AXE]: new CardRecipe(CardId.METAL_AXE, {
-		'wood': 25,
-		'metal': 10
-	}),
-	[CardId.METAL_PICK]: new CardRecipe(CardId.METAL_PICK, {
-		'wood': 25,
-		'metal': 10
-	}),
-	[CardId.WATER_PIPE]: new CardRecipe(CardId.WATER_PIPE, {
-		'water': 20,
-		'metal': 15
-	}),
-	[CardId.HOOK]: new CardRecipe(CardId.HOOK, {
-		'metal': 20
-	}),
-	[CardId.TOOLBOX]: new CardRecipe(CardId.TOOLBOX, {
-		'metal': 35
-	}),
-	[CardId.PROCESS_COAL]: new CardRecipe(CardId.PROCESS_COAL, {
-		'water': 30,
-		'metal': 5
-	}),
+	[CardId.RELAX]: new CardRecipe(CardId.RELAX, new ResourceCosts({})),
+	[CardId.CHOP_WOOD]: new CardRecipe(CardId.CHOP_WOOD, new ResourceCosts({})),
+	[CardId.MINE_STONE]: new CardRecipe(CardId.MINE_STONE, new ResourceCosts({})),
+	[CardId.STONE_AXE]: new CardRecipe(CardId.STONE_AXE, new ResourceCosts({
+		[ResourceId.WOOD]: 4,
+		[ResourceId.STONE]: 6
+	})),
+	[CardId.STONE_PICK]: new CardRecipe(CardId.STONE_PICK, new ResourceCosts({
+		[ResourceId.WOOD]: 6,
+		[ResourceId.STONE]: 4
+	})),
+	[CardId.TOOL_CART]: new CardRecipe(CardId.TOOL_CART, new ResourceCosts({
+		[ResourceId.WOOD]: 8,
+		[ResourceId.STONE]: 8
+	})),
+	[CardId.LUMBERYARD]: new CardRecipe(CardId.LUMBERYARD,  new ResourceCosts({
+		[ResourceId.WOOD]: 12,
+		[ResourceId.STONE]: 16
+	})),
+	[CardId.QUARRY]: new CardRecipe(CardId.QUARRY,  new ResourceCosts({
+		[ResourceId.WOOD]: 16,
+		[ResourceId.STONE]: 12
+	})),
+	[CardId.WATER_WELL]: new CardRecipe(CardId.WATER_WELL,  new ResourceCosts({
+		[ResourceId.STONE]: 25
+	})),
+	[CardId.TILL_SOIL]: new CardRecipe(CardId.TILL_SOIL, new ResourceCosts({
+		[ResourceId.WOOD]: 10,
+		[ResourceId.WATER]: 15
+	})),
+	[CardId.GROW_WHEAT]: new CardRecipe(CardId.GROW_WHEAT, new ResourceCosts({
+		[ResourceId.WATER]: 10,
+		[ResourceId.LAND]: 6
+	})),
+	[CardId.WATERING_CAN]: new CardRecipe(CardId.WATERING_CAN, new ResourceCosts({
+		[ResourceId.WATER]: 12,
+		[ResourceId.METAL]: 8
+	})),
+	[CardId.IRRIGATE]: new CardRecipe(CardId.IRRIGATE, new ResourceCosts({
+		[ResourceId.WATER]: 20,
+		[ResourceId.LAND]: 10
+	})),
+	[CardId.FEED_ANIMALS]: new CardRecipe(CardId.FEED_ANIMALS, new ResourceCosts({
+		[ResourceId.LAND]: 10,
+		[ResourceId.WHEAT]: 5
+	})),
+	[CardId.FERTILIZE]: new CardRecipe(CardId.FERTILIZE, new ResourceCosts({
+		[ResourceId.MANURE]: 10
+	})),
+	[CardId.BAKE_BREAD]: new CardRecipe(CardId.BAKE_BREAD, new ResourceCosts({
+		[ResourceId.WATER]: 10,
+		[ResourceId.WHEAT]: 10
+	})),
+	[CardId.QUICK_SNACK]: new CardRecipe(CardId.QUICK_SNACK, new ResourceCosts({
+		[ResourceId.BREAD]: 5
+	})),
+	[CardId.EXPEDITION]: new CardRecipe(CardId.EXPEDITION, new ResourceCosts({
+		[ResourceId.WATER]: 40,
+		[ResourceId.LAND]: 15
+	})),
+	[CardId.MINE_COAL]: new CardRecipe(CardId.MINE_COAL,  new ResourceCosts({
+		[ResourceId.WOOD]: 25,
+		[ResourceId.STONE]: 10
+	})),
+	[CardId.SMELT_ORE]: new CardRecipe(CardId.SMELT_ORE,  new ResourceCosts({
+		[ResourceId.STONE]: 20,
+		[ResourceId.COAL]: 4
+	})),
+	[CardId.FURNACE]: new CardRecipe(CardId.FURNACE,  new ResourceCosts({
+		[ResourceId.STONE]: 40,
+		[ResourceId.COAL]: 8
+	})),
+	[CardId.CHARCOAL]: new CardRecipe(CardId.CHARCOAL,  new ResourceCosts({
+		[ResourceId.WOOD]: 25,
+		[ResourceId.COAL]: 5
+	})),
+	[CardId.LANTERN]: new CardRecipe(CardId.LANTERN, new ResourceCosts({
+		[ResourceId.COAL]: 10,
+		[ResourceId.METAL]: 4
+	})),
+	[CardId.PROSPECTING]: new CardRecipe(CardId.PROSPECTING,  new ResourceCosts({
+		[ResourceId.LAND]: 30
+	})),
+	[CardId.METAL_AXE]: new CardRecipe(CardId.METAL_AXE, new ResourceCosts({
+		[ResourceId.WOOD]: 25,
+		[ResourceId.METAL]: 10
+	})),
+	[CardId.METAL_PICK]: new CardRecipe(CardId.METAL_PICK, new ResourceCosts({
+		[ResourceId.WOOD]: 25,
+		[ResourceId.METAL]: 10
+	})),
+	[CardId.WATER_PIPE]: new CardRecipe(CardId.WATER_PIPE, new ResourceCosts({
+		[ResourceId.WATER]: 20,
+		[ResourceId.METAL]: 15
+	})),
+	[CardId.HOOK]: new CardRecipe(CardId.HOOK, new ResourceCosts({
+		[ResourceId.METAL]: 20
+	})),
+	[CardId.TOOLBOX]: new CardRecipe(CardId.TOOLBOX, new ResourceCosts({
+		[ResourceId.METAL]: 35
+	})),
+	[CardId.PROCESS_COAL]: new CardRecipe(CardId.PROCESS_COAL, new ResourceCosts({
+		[ResourceId.WATER]: 30,
+		[ResourceId.METAL]: 5
+	})),
 }
