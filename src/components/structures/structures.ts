@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { Structure, StructureId, STRUCTURES } from '../../models/structure';
+import { Structure, StructureId } from '../../models/structure';
 import { StructureService } from '../../services/structure/structure';
 import { Resource, ResourceId } from '../../models/resource';
 import { ResourceService } from '../../services/resource/resource';

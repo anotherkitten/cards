@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SavedStructure, StructureId, STRUCTURES } from '../../models/structure';
+import { RouterTestingHarness } from '@angular/router/testing';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class StructureService {
   }
 
   loadStructures(saved: SavedStructure[]) {
+    Object.entries(this.structures).forEach(struct => struct[1].level = 0);
     saved.forEach(save => this.structures[save.id].level = Math.min(save.level, this.structures[save.id].levels));
   }
 

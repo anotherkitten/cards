@@ -4,17 +4,18 @@ import { RecipesComponent } from '../recipes/recipes';
 import { DeckComponent } from '../deck/deck';
 import { PacksComponent } from '../packs/packs';
 import { StructuresComponent } from '../structures/structures';
+import { SaveComponent } from '../save/save';
 
 @Component({
   selector: 'app-tabs',
-  imports: [NgClass, RecipesComponent, DeckComponent, PacksComponent, StructuresComponent],
+  imports: [NgClass, RecipesComponent, DeckComponent, PacksComponent, StructuresComponent, SaveComponent],
   templateUrl: './tabs.html',
   styleUrl: './tabs.css',
 })
 export class Tabs {
   selected: String = '';
   last_selected: String = '';
-  tabs = ['Craft', 'Deck', 'Packs', 'Structures'];
+  tabs = ['Craft', 'Deck', 'Packs', 'Structures', 'Profile'];
 
   select(s: String) {
     this.selected = this.selected === s ? '' : s;

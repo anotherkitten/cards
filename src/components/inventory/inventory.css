@@ -90,6 +90,12 @@ div.grid .row .item.brown {
 	background-color: var(--color-light-brown);
 }
 
+div.grid .row .item.gray {
+	color: var(--color-font-gray);
+	border-color: var(--color-dark-gray);
+	background-color: var(--color-light-gray);
+}
+
 div.grid .row .item.black {
 	color: var(--color-font-black);
 	border-color: var(--color-dark-black);

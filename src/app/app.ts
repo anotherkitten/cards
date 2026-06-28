@@ -1,5 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
 import { Inventory } from "../components/inventory/inventory";
 import { CardService } from '../services/card/card';
 import { CardExecutionService } from '../services/card-execution/card-execution';
@@ -10,7 +9,7 @@ import { Tabs } from "../components/tabs/tabs";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Inventory, CardsComponent, Tabs],
+  imports: [Inventory, CardsComponent, Tabs],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -24,6 +23,7 @@ export class App implements OnInit{
     this.cardExecService.init(this.cardService);
     this.saveService.load();
 
+    if (!this.saveService.getSaves().length) this.saveService.save();
     interval(30e3).subscribe(() => this.saveService.save());
   }
 }

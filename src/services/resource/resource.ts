@@ -29,10 +29,11 @@ export class ResourceService {
   }
 
   loadResources(saved: SavedResource[]) {
-    this.unlocked = [];
+    this.unlocked = [ResourceId.WOOD, ResourceId.STONE];
+    Object.entries(this.resources).forEach(res => res[1].quantity = 0);
 
     saved.forEach(save => {
-      if (save.unlocked) this.unlocked.push(save.id);
+      if (save.unlocked && !this.unlocked.includes(save.id)) this.unlocked.push(save.id);
       if (this.haveResource(save.id)) this.safeGet(save.id).quantity = save.quantity;
     })
 

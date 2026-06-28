@@ -24,21 +24,85 @@ class Save {
   }
 }
 
-const SAVE_LOCATION = 'CARDS-test-savefile'
+const PROFILE_LOCATION = 'CARDS-active-profile'
+const SAVEFILE_STRING = 'CARDS-savefile-';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SaveService {
+  profile: String = this.loadProfile();
   cards: CardService = inject(CardService);
   exec: CardExecutionService = inject(CardExecutionService);
   resources: ResourceService = inject(ResourceService);
   recipes: RecipeService = inject(RecipeService);
   structs: StructureService = inject(StructureService);
 
+  lastSaved: number = Date.now();
+
+  loadProfile() {
+    return localStorage.getItem(PROFILE_LOCATION) || 'player';
+  }
+
+  saveProfile() {
+    localStorage.setItem(PROFILE_LOCATION, this.profile.toString());
+  }
+
+  getSaves(): [String, Save][] {
+    return Object.entries(localStorage)
+      .filter(obj => obj[0] !== PROFILE_LOCATION)
+      .map(obj => [obj[0].replaceAll(SAVEFILE_STRING.toString(), ''), obj[1]]) as [String, Save][];
+  }
+
+  createProfile(name: String): String {
+    if (Object.keys(localStorage).includes(this.saveLocation(name))) return 'Profile with this name already exists';
+    if (name.includes(SAVEFILE_STRING)) return 'Please dont do that';
+
+    this.profile = name;
+    this.loadSave(this.createNewSave());
+    this.cards.drawCards(5);
+    this.save();
+    this.saveProfile();
+
+    return '';
+  }
+
+  switchProfile(name: String) {
+    if (!Object.keys(localStorage).includes(this.saveLocation(name))) return;
+
+    this.save();
+    this.profile = name;
+    this.load();
+    this.saveProfile();
+  }
+
+  renameProfile(name: String, clone: boolean = false): String {
+    if (Object.keys(localStorage).includes(this.saveLocation(name))) return 'Profile with this name already exists';
+    if (name.includes(SAVEFILE_STRING)) return 'Please dont do that';
+
+    if (!clone) localStorage.removeItem(this.saveLocation());
+    this.profile = name;
+    this.save();
+    this.saveProfile();
+
+    return '';
+  }
+
+  createNewSave() {
+    const save = new Save();
+    save.savedCards = this.cards.createNewSaveCards();
+    save.savedRecipes = this.recipes.defaultUnlocks();
+    return save;
+  }
+
+  saveLocation(name?: String) {
+    return SAVEFILE_STRING.concat(name ? name.toString() : this.profile.toString());
+  }
+
   save() {
-    console.log('progress saved');
-    localStorage.setItem(SAVE_LOCATION, JSON.stringify(this.makeSave()));
+    console.log(`Progress saved in profile ${this.profile}`);
+    localStorage.setItem(this.saveLocation(), JSON.stringify(this.makeSave()));
+    this.lastSaved = Date.now();
   }
 
   makeSave(): Save {
@@ -53,7 +117,8 @@ export class SaveService {
   }
 
   load() {
-    const saveData = localStorage.getItem(SAVE_LOCATION);
+    this.saveProfile();
+    const saveData = localStorage.getItem(this.saveLocation());
     if (saveData) {
       try {
         const saveFile = new Save(JSON.parse(saveData) as Save);

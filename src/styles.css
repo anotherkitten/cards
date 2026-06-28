@@ -31,7 +31,8 @@ body {
 	--color-light-blue: #C2E8FF;
 	--color-light-purple: #DCD6FF;
 	--color-light-brown: #EBD7CD;
-	--color-light-black: #E0E0E0;
+	--color-light-gray: #D8D8D8;
+	--color-light-black: #C0C0C0;
 	--color-light-white: #F7F7F2;
 	
 	/* https://coolors.co/dbbdbd-dbccbd-d9dbbd-c2dbbd-b6c8d6-c0bddb-c6c6c6-d8d8d2-cbc1bc */
@@ -42,7 +43,8 @@ body {
 	--color-dark-blue: #b6c8d6;
 	--color-dark-purple: #c0bddb;
 	--color-dark-brown: #cbc1bc;
-	--color-dark-black: #c6c6c6;
+	--color-dark-gray: #c0c0c0;
+	--color-dark-black: #a6a6a6;
 	--color-dark-white: #d8d8d2;
 	
 	/* https://coolors.co/897373-897f73-898973-778973-6e7b84-757389-797979-878782-7b7774 */
@@ -53,6 +55,7 @@ body {
 	--color-font-blue: #6e7b84;
 	--color-font-purple: #757389;
 	--color-font-brown: #7b7774;
-	--color-font-black: #797979;
+	--color-font-gray: #747474;
+	--color-font-black: #626262;
 	--color-font-white: #878782;
 }

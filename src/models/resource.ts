@@ -21,7 +21,7 @@ export enum ResourceColor {
 	PURPLE = 'purple',
 	BLUE = 'blue',
 	BROWN = 'brown',
-	GREY = 'grey',
+	GRAY = 'gray',
 	BLACK = 'black',
 }
 
@@ -87,7 +87,7 @@ export class Resource {
 
 export const RESOURCE_LIB = {
 	[ResourceId.WOOD]: new Resource(ResourceId.WOOD, "Wood", ResourceColor.BROWN),
-	[ResourceId.STONE]: new Resource(ResourceId.STONE, "Stone", ResourceColor.BLACK),
+	[ResourceId.STONE]: new Resource(ResourceId.STONE, "Stone", ResourceColor.GRAY),
 	[ResourceId.WATER]: new Resource(ResourceId.WATER, "Water", ResourceColor.BLUE),
 	[ResourceId.LAND]: new Resource(ResourceId.LAND, "Land", ResourceColor.GREEN),
 	[ResourceId.WHEAT]: new Resource(ResourceId.WHEAT, "Wheat", ResourceColor.YELLOW),

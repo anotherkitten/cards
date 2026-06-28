@@ -8,18 +8,22 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class RecipeService {
-  unlocked_recipes: CardId[] = [ 
-    CardId.STONE_AXE, 
-    CardId.STONE_PICK, 
-    CardId.TOOL_CART, 
-    CardId.LUMBERYARD, 
-    CardId.QUARRY,
-  ]
+  unlocked_recipes: CardId[] = this.defaultUnlocks();
   available: CardRecipe[] = [];
   filtered: CardRecipe[] = [];
   lastFilter: String = '';
 
   $unlock: Subject<void> = new Subject();
+
+  defaultUnlocks() {
+    return [ 
+      CardId.STONE_AXE, 
+      CardId.STONE_PICK, 
+      CardId.TOOL_CART, 
+      CardId.LUMBERYARD, 
+      CardId.QUARRY,
+    ];
+  }
 
   loadUnlocks(unlocks: CardId[]) {
     this.unlocked_recipes = unlocks;

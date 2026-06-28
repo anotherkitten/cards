@@ -98,6 +98,12 @@
 	background-color: var(--color-light-brown);
 }
 
+.card.gray {
+	color: var(--color-font-gray);
+	border-color: var(--color-dark-gray);
+	background-color: var(--color-light-gray);
+}
+
 .card.black {
 	color: var(--color-font-black);
 	border-color: var(--color-dark-black);

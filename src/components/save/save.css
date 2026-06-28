@@ -1,0 +1,107 @@
+.shelf {
+	width: 300px;
+	height: 100vh;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	opacity: 1;
+	animation: fade-entrance .55s both;
+}
+
+.title {
+	margin-top: 24px;
+}
+
+.subtitle {
+	font-size: .9em;
+}
+
+.grid {
+	background-color: #0001;
+
+	height: calc(100vh - 48px);
+	width: 252px;
+	margin: 12px 24px;
+	border-radius: 10px;
+
+	overflow-y: scroll;
+	scrollbar-width: none;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.save {
+	display: flex;
+	align-items: center;
+
+	background-color: white;
+	padding: 8px;
+	border-radius: 8px;
+	margin-top: 8px;
+
+	box-sizing: border-box;
+	text-align: center;
+	width: 236px;
+
+	.save-name {
+		width: 212px;
+	}
+
+	fa-icon {
+		cursor: pointer;
+	}
+}
+
+input {
+	box-sizing: border-box;
+	background-color: #0001;
+	border: none;
+	font-size: 1em;
+	border-radius: 4px;
+	padding: 4px;
+	width: 252px;
+	color: #000B;
+}
+
+input.enabled {
+	color: #000;
+}
+
+input:focus {
+	background-color: #0002;
+	outline: none;
+}
+
+.buttons {
+	margin: 8px 0 24px;
+	display: flex;
+	justify-content: space-between;
+
+	div {
+		opacity: .4;
+		background-color: #0002;
+		transition: background-color .25s, opacity .25s;
+		user-select: none;
+		padding: 4px;
+		border-radius: 4px;
+		margin-top: 8px;
+		padding: 4px 12px;	
+		text-align: center;
+		margin: 0px 4px;
+	}
+
+	div.enabled {
+		opacity: 1;
+		cursor: pointer;
+	}
+
+	div.enabled:hover {
+		background-color: #0004;
+	}
+}

@@ -34,7 +34,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			'Mine Stone',
 			'Gain {!Rstone} stone.',
 			'',
-			CardColor.BLACK
+			CardColor.GRAY
 		),
 		[ CardTag.STONE_PROVIDER ],
 		{ stone: '1' },
@@ -107,7 +107,7 @@ export const CARD_TEMPLATES: CardLibrary<CardId, CardTemplate> = {
 			'Quarry',
 			'Gain {!Rstone} stone.',
 			'',
-			CardColor.BLACK
+			CardColor.GRAY
 		),
 		[ CardTag.STONE_PROVIDER ],
 		{ stone: '3' },

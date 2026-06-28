@@ -1,0 +1,23 @@
+<div class="shelf">
+	<div class="title">
+		Current Profile: {{saveService.profile}}
+	</div>
+	<div class="subtitle">
+		Last Saved: {{lastSaved}}
+	</div>
+	<div class="grid">
+		@for (save of saveService.getSaves(); track save[0]) {
+			<div class="save">
+				<div class="save-name">
+					{{save[0]}}
+				</div>
+				<fa-icon [icon]="iconLoad" (click)="switchProfile(save[0])"></fa-icon>
+			</div>
+		}
+	</div>
+	<input [(ngModel)]="nameInput" placeholder="Profile name..." [class.enabled]="nameInput.trim().length">
+	<div class="buttons">
+		<div [class.enabled]="nameInput.trim().length" (click)="createProfile()">Create</div>
+		<div [class.enabled]="nameInput.trim().length" (click)="renameProfile()">Rename Current</div>
+	</div>
+</div>

@@ -42,6 +42,10 @@
 	right: -520px;
 }
 
+.shelf.profile {
+	right: -700px;
+}
+
 .tab {
 	user-select: none;
 	position: relative;

@@ -52,6 +52,10 @@ export class CardService {
     return new Card(this.cardExecService, saved.id, temp.info, temp.tags, saved.data, temp.effect, temp.playable);
   }
 
+  createNewSaveCards() {
+    return this.getDefaultDeck().map(c => new SavedCard(c.id, c.data, CardLocation.DECK));
+  }
+
   saveCards(): SavedCard[] {
     return this.owned.map(c => new SavedCard(c.id, c.data, this.getLocation(c)));
   }
