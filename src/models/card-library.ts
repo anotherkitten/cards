@@ -474,38 +474,38 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 	[CardId.CHOP_WOOD]: new CardRecipe(CardId.CHOP_WOOD, new ResourceCosts({})),
 	[CardId.MINE_STONE]: new CardRecipe(CardId.MINE_STONE, new ResourceCosts({})),
 	[CardId.STONE_AXE]: new CardRecipe(CardId.STONE_AXE, new ResourceCosts({
-		[ResourceId.WOOD]: 4,
-		[ResourceId.STONE]: 6
+		[ResourceId.WOOD]: 3,
+		[ResourceId.STONE]: 5
 	})),
 	[CardId.STONE_PICK]: new CardRecipe(CardId.STONE_PICK, new ResourceCosts({
-		[ResourceId.WOOD]: 6,
-		[ResourceId.STONE]: 4
+		[ResourceId.WOOD]: 5,
+		[ResourceId.STONE]: 3
 	})),
 	[CardId.TOOL_CART]: new CardRecipe(CardId.TOOL_CART, new ResourceCosts({
 		[ResourceId.WOOD]: 8,
 		[ResourceId.STONE]: 8
 	})),
 	[CardId.LUMBERYARD]: new CardRecipe(CardId.LUMBERYARD,  new ResourceCosts({
-		[ResourceId.WOOD]: 12,
-		[ResourceId.STONE]: 16
-	})),
-	[CardId.QUARRY]: new CardRecipe(CardId.QUARRY,  new ResourceCosts({
-		[ResourceId.WOOD]: 16,
+		[ResourceId.WOOD]: 10,
 		[ResourceId.STONE]: 12
 	})),
+	[CardId.QUARRY]: new CardRecipe(CardId.QUARRY,  new ResourceCosts({
+		[ResourceId.WOOD]: 12,
+		[ResourceId.STONE]: 10
+	})),
 	[CardId.WATER_WELL]: new CardRecipe(CardId.WATER_WELL,  new ResourceCosts({
-		[ResourceId.STONE]: 25
+		[ResourceId.STONE]: 15
 	})),
 	[CardId.TILL_SOIL]: new CardRecipe(CardId.TILL_SOIL, new ResourceCosts({
 		[ResourceId.WOOD]: 10,
-		[ResourceId.WATER]: 15
+		[ResourceId.WATER]: 10
 	})),
 	[CardId.GROW_WHEAT]: new CardRecipe(CardId.GROW_WHEAT, new ResourceCosts({
 		[ResourceId.WATER]: 10,
 		[ResourceId.LAND]: 6
 	})),
 	[CardId.WATERING_CAN]: new CardRecipe(CardId.WATERING_CAN, new ResourceCosts({
-		[ResourceId.WATER]: 12,
+		[ResourceId.WATER]: 20,
 		[ResourceId.METAL]: 8
 	})),
 	[CardId.IRRIGATE]: new CardRecipe(CardId.IRRIGATE, new ResourceCosts({
@@ -527,23 +527,23 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 		[ResourceId.BREAD]: 5
 	})),
 	[CardId.EXPEDITION]: new CardRecipe(CardId.EXPEDITION, new ResourceCosts({
-		[ResourceId.WATER]: 40,
+		[ResourceId.WATER]: 30,
 		[ResourceId.LAND]: 15
 	})),
 	[CardId.MINE_COAL]: new CardRecipe(CardId.MINE_COAL,  new ResourceCosts({
-		[ResourceId.WOOD]: 25,
-		[ResourceId.STONE]: 10
+		[ResourceId.WOOD]: 16,
+		[ResourceId.STONE]: 8
 	})),
 	[CardId.SMELT_ORE]: new CardRecipe(CardId.SMELT_ORE,  new ResourceCosts({
-		[ResourceId.STONE]: 20,
-		[ResourceId.COAL]: 4
+		[ResourceId.STONE]: 15,
+		[ResourceId.COAL]: 5
 	})),
 	[CardId.FURNACE]: new CardRecipe(CardId.FURNACE,  new ResourceCosts({
-		[ResourceId.STONE]: 40,
-		[ResourceId.COAL]: 8
+		[ResourceId.STONE]: 25,
+		[ResourceId.COAL]: 10
 	})),
 	[CardId.CHARCOAL]: new CardRecipe(CardId.CHARCOAL,  new ResourceCosts({
-		[ResourceId.WOOD]: 25,
+		[ResourceId.WOOD]: 20,
 		[ResourceId.COAL]: 5
 	})),
 	[CardId.LANTERN]: new CardRecipe(CardId.LANTERN, new ResourceCosts({
@@ -551,7 +551,7 @@ export const CARD_RECIPES: CardLibrary<CardId, CardRecipe> = {
 		[ResourceId.METAL]: 4
 	})),
 	[CardId.PROSPECTING]: new CardRecipe(CardId.PROSPECTING,  new ResourceCosts({
-		[ResourceId.LAND]: 30
+		[ResourceId.LAND]: 25
 	})),
 	[CardId.METAL_AXE]: new CardRecipe(CardId.METAL_AXE, new ResourceCosts({
 		[ResourceId.WOOD]: 25,

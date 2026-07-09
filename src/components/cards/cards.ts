@@ -101,8 +101,4 @@ export class CardsComponent implements OnInit{
 
     this.viewingDeck = deck;
   }
-
-  showAutoplay() {
-    return this.structs.level(StructureId.WORKSHOP);
-  }
 }

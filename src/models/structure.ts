@@ -54,7 +54,7 @@ export class Structure {
 export const STRUCTURES: StructureLibrary<StructureId, Structure> = {
 	[StructureId.SILO]: new Structure(
 		StructureId.SILO, "Silo", 5,
-		(n) => !n ? 'Raises the resource limit' : `Resource limit is raised to ${[200, 500, 1000, 2500, 10000][n - 1]}`,
+		(n) => `Raises the resource limit (${[100, 200, 500, 1000, 2500, 10000][n]} per resource)`,
 		[
 			new ResourceCosts({
 				[ResourceId.WOOD]: 80,
@@ -80,7 +80,7 @@ export const STRUCTURES: StructureLibrary<StructureId, Structure> = {
 	),
 	[StructureId.WATER_WHEEL]: new Structure(
 		StructureId.WATER_WHEEL, "Water Wheel", 3,
-		(n) => !n ? 'Speeds up the redraw timer' : `Redrawing is ${['1 second', '1.8 seconds', '2.5 seconds'][n - 1]} faster`,
+		(n) => `Speeds up redraw timer (${['5', '4', '3.2', '2.5'][n]} seconds)`,
 		[
 			new ResourceCosts({
 				[ResourceId.WOOD]: 120,
@@ -100,7 +100,7 @@ export const STRUCTURES: StructureLibrary<StructureId, Structure> = {
 	),
 	[StructureId.WORKSHOP]: new Structure(
 		StructureId.WORKSHOP, "Workshop", 3,
-		(n) => !n ? 'Unlocks autoplay' : `Autoplay speed: ${['.65 cards/s', '.85 cards/s', '1.25 cards/s'][n - 1]}`,
+		(n) => `Speeds up autoplay (${['.5 cards/s', '.65 cards/s', '.85 cards/s', '1.25 cards/s'][n]})`,
 		[
 			new ResourceCosts({
 				[ResourceId.WOOD]: 150,
