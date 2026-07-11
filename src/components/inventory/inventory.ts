@@ -3,10 +3,11 @@ import { ResourceService } from '../../services/resource/resource';
 import { Subscription } from 'rxjs';
 import { Resource, RESOURCE_LIB } from '../../models/resource';
 import { CommonModule } from '@angular/common';
+import { InventoryGlow } from './inventory-glow/inventory-glow';
 
 @Component({
   selector: 'app-inventory',
-  imports: [CommonModule],
+  imports: [CommonModule, InventoryGlow],
   templateUrl: './inventory.html',
   styleUrl: './inventory.css',
 })

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Resource, RESOURCE_LIB, ResourceCosts, ResourceId, SavedResource } from '../../models/resource';
-import { Subject } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { StructureService } from '../structure/structure';
 import { StructureId } from '../../models/structure';
 
@@ -14,6 +14,7 @@ export class ResourceService {
 
   $updates: Subject<Resource[]> = new Subject<Resource[]>();
   $unlocked: Subject<Resource[]> = new Subject<Resource[]>();
+  $incremented: Subject<ResourceId> = new Subject<ResourceId>();
 
   private getResources() {
     return Object.values(this.resources);
@@ -67,6 +68,7 @@ export class ResourceService {
     r.quantity = Math.min(r.quantity + amount, this.resourceCap());
 
     if (!this.unlocked.includes(id)) this.unlocked.push(id);
+    this.$incremented.next(id);
     this.sendUpdates();
     return r.quantity;
   }
@@ -88,5 +90,9 @@ export class ResourceService {
 
   resourceCap() {
     return [100, 200, 500, 1000, 2500, 10000][this.structs.level(StructureId.SILO)];
+  }
+
+  incrementStream(filterBy: ResourceId) {
+    return this.$incremented.pipe(filter(id => id === filterBy));
   }
 }
