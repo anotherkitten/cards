@@ -14,7 +14,7 @@ export class ResourceService {
 
   $updates: Subject<Resource[]> = new Subject<Resource[]>();
   $unlocked: Subject<Resource[]> = new Subject<Resource[]>();
-  $incremented: Subject<ResourceId> = new Subject<ResourceId>();
+  $incremented: Subject<[ResourceId, number]> = new Subject<[ResourceId, number]>();
 
   private getResources() {
     return Object.values(this.resources);
@@ -68,7 +68,7 @@ export class ResourceService {
     r.quantity = Math.min(r.quantity + amount, this.resourceCap());
 
     if (!this.unlocked.includes(id)) this.unlocked.push(id);
-    this.$incremented.next(id);
+    this.$incremented.next([id, amount]);
     this.sendUpdates();
     return r.quantity;
   }
@@ -92,7 +92,7 @@ export class ResourceService {
     return [100, 200, 500, 1000, 2500, 10000][this.structs.level(StructureId.SILO)];
   }
 
-  incrementStream(filterBy: ResourceId) {
-    return this.$incremented.pipe(filter(id => id === filterBy));
+  incrementStream(filterBy: ResourceId | ResourceId[]) {
+    return this.$incremented.pipe(filter(id => [filterBy].flat().includes(id[0])));
   }
 }

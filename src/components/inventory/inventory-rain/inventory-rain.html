@@ -1,0 +1,14 @@
+@for (icon of icons; track icon.uuid) {
+	<div class="icon" 
+		[style.filter]="icon.filter()" 
+		[style.opacity]="icon.fake ? '.002' : '1'"
+		[style.background-image]="icon.image()" 
+		[style.mask-image]="`url('/assets/${icon.resource}.png')`"
+		[style.transform]="`translate(${icon.x}px, 0) scale(${icon.scale}) rotate(${icon.angle}deg)`" 
+		[style.top]="icon.y + 'px'"
+		[style.z-index]="icon.z()">
+	</div>
+}
+
+<div class="awesome-fucking-gradient"></div>
+<div class="awesome-fucking-gradient-2"></div>

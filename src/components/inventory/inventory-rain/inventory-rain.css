@@ -1,0 +1,29 @@
+.icon {
+	position: fixed;
+	left: 50vw;
+	width: 64px;
+	height: 64px;
+
+	background-size: cover;
+	mask-size: cover;
+}
+
+.awesome-fucking-gradient {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 120px;
+	background-image: linear-gradient(#fff4, #fff0);
+	background-size: cover;
+}
+
+.awesome-fucking-gradient-2 {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100vw;
+	height: 240px;
+	background-image: linear-gradient(#fff0, #fffb);
+	background-size: cover;
+}
