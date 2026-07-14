@@ -29,7 +29,7 @@ class FallingIcon {
   }
 
   image() {
-    return `linear-gradient(rgba(240, 240, 240, ${1.7 - this.scale}), rgba(240, 240, 240, ${1.8 - this.scale})), url('/assets/${this.resource}.png')`;
+    return `linear-gradient(rgba(240, 240, 240, ${1.7 - this.scale}), rgba(240, 240, 240, ${1.8 - this.scale})), url('assets/${this.resource}.png')`;
   }
 
   z() {
