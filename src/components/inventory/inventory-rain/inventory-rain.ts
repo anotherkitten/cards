@@ -33,7 +33,7 @@ class FallingIcon {
   }
 }
 
-const IMPLEMENTED = [ResourceId.WOOD, ResourceId.STONE];
+const IMPLEMENTED = [ResourceId.WOOD, ResourceId.STONE, ResourceId.WATER, ResourceId.COAL, ResourceId.LAND];
 
 @Component({
   selector: 'app-inventory-rain',
