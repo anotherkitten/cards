@@ -50,7 +50,7 @@ export class InventoryRain implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.$update = interval(10).subscribe(() => this.update());
-    this.$resources = this.resourceService.incrementStream([ResourceId.STONE, ResourceId.WOOD]).subscribe(update => this.create(...update));
+    this.$resources = this.resourceService.incrementStream(IMPLEMENTED).subscribe(update => this.create(...update));
   }
 
   ngOnDestroy() {
